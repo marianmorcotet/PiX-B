@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link rel="stylesheet" type="text/css" media="screen" href="Gallery.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="styles/Gallery.css">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
@@ -9,15 +9,19 @@
 </head>
 <body>
 
-    
+
     <header>
-		<button class="add">Add image</button>
-		<h1>Yours image</h1>
+		<h1>Your images</h1>
+    <button class="add">Add image</button>
 		<select>
 			<option>All image</option>
 			<option>Sort by data</option>
 			<option>Sort by #montain</option>
 		</select>
+    <!-- <div class="filter">
+      <button type="filter-by">Filter by</button>
+      <input type="text" placeholder="date/tag">
+    </div> -->
 	</header>
 
 
@@ -42,7 +46,7 @@
             </label>
         </div>
 
-        <div class="image"> 
+        <div class="image">
             <img src="http://www.turism-iasi.ro/gallery/gradina%20botanica2.jpg" alt="">
             <h3>About this photo:</h3>
             <p>Descriere imagine</p>
@@ -70,6 +74,7 @@
                 <button>Delete</button>
             </label>
         </div>
+
     </div>
 </body>
 </html>
