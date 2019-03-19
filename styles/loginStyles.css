@@ -2,11 +2,12 @@
 
 @keyframes Gradient {
   from{background-position: 0 0;}
-  to{background-position: 100% 100%;}
+  to{background-position: 100% 80%;}
 }
 body {
 	background: linear-gradient(-45deg, red, blue, pink, green);
 	background-size: 300% 300%;
+  background-repeat: no-repeat;
 	animation: Gradient 15s ease infinite alternate;
 }
 
@@ -24,6 +25,7 @@ body {
   padding: 45px;
   text-align: center;
   box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+  animation: 2s;
 }
 .form input {
   font-family: "Roboto", sans-serif;
@@ -50,11 +52,11 @@ body {
   cursor: pointer;
 }
 @keyframes buttonGradient {
-  from{background-position: 0 0;}
-  to{background-position: 100% 100%;}
+  from{background-position: 100% 100%;}
+  to{background-position: 0 0;}
 }
 .form button:hover,.form button:active,.form button:focus {
-  background-size: 200% 100%;
+  background-size: 300% 100%;
   background-image: linear-gradient(to right, blue , green);
   animation-fill-mode: forwards;
   animation: buttonGradient 1s infinite alternate;
@@ -68,4 +70,12 @@ body {
 .form .message a {
   color: #4CAF50;
   text-decoration: none;
+}
+
+.register-form.inactive{
+  display: none;
+}
+
+.login-form.inactive{
+  display: none;
 }
