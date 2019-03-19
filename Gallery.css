@@ -1,5 +1,11 @@
-body{
-    background-color: black;
+@keyframes Gradient {
+  from{background-position: 0 0;}
+  to{background-position: 100% 100%;}
+}
+body {
+	background: linear-gradient(-45deg, red, blue, pink, green);
+	background-size: 300% 300%;
+	animation: Gradient 15s ease infinite alternate;
 }
 
 header {
@@ -10,6 +16,7 @@ header {
 }
 
 header .add{
+    max-width: 90px;
     border: none;
     border-radius: 5px;
     background-color: silver;
@@ -22,15 +29,18 @@ header select{
 }
 
 .gallery {
+    background: white;
+    margin-left: 7%;
+    margin-right: 7%;
     display: flex;
     flex-flow: row wrap;
-    justify-content: center;
+    justify-content: left;
 }
 .gallery .image {
     width: 100%;
     background-color: black;
     height: 300px;
-    margin: 0 0 2em 0;
+    margin: 0 0 1em 0;
     position: relative;
 }
 
@@ -82,9 +92,32 @@ header select{
 }
 
 
+button {
+  outline: 0;
+  background-image: linear-gradient(to right, blue , green);
+  width: 100%;
+  border: 0;
+  color: #FFFFFF;
+  cursor: pointer;
+}
 
+@keyframes buttonGradient {
+  from{background-position: 0 0;}
+  to{background-position: 100% 100%;}
+}
+button:hover, button:active, button:focus {
+  background-size: 200% 100%;
+  background-image: linear-gradient(to right, blue , green);
+  animation-fill-mode: forwards;
+  animation: buttonGradient 1s infinite alternate;
+  transition: 1s;
+}
 
 @media screen and (min-width: 500px) and (max-width: 800px) {
+    .gallery{
+      margin-left: 5%;
+      margin-right: 5%;
+    }
     .gallery .image {
         width: 49%;
         margin-right: 2%;

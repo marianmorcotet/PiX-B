@@ -57,7 +57,7 @@ body {
   background-size: 200% 100%;
   background-image: linear-gradient(to right, blue , green);
   animation-fill-mode: forwards;
-  animation: buttonGradient 1s;
+  animation: buttonGradient 1s infinite alternate;
   transition: 1s;
 }
 .form .message {
