@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" type="text/css" media="screen" href="edit.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Edit</title>
+</head>
+<body>
+
+    <header class="edit-set">
+
+        <div class="right">
+          <button class="rotation">Rotate left</button>
+          <button class="rotation">Rotate right</button>
+          <label for="filtre">Filtre</label>
+           <select id="filtre" name="filtre">
+               <option >Dark</option>
+               <option >Blue</option>
+               <option >Green</option>
+            </select>
+            <label for="filtre">Convert</label>
+           <select id="filtre" name="filtre">
+               <option >JPG</option>
+               <option >PNG</option>
+               <option >CSV</option>
+            </select>
+        </div>
+        
+        <div class="size">
+            <form action="">
+                <label for="wsize">Width</label>
+                <input type="text" id="wsize" name="widthsize" placeholder="Size width..">
+              
+                <label for="hsize">Height</label>
+                <input type="text" id="hsize" name="heightsize" placeholder="Size height..">
+            </form>
+        </div>
+
+
+        <div class="center">
+                <h3>Edit image</h3>
+                <button class="cancel">Cancel</button>
+                <button class="save">Save</button>
+        </div>
+    </header>
+
+
+    <div class="image">
+        <img src="http://timelapse.ro/wp-content/uploads/2016/02/Iasi-at-Night-Hyperlapse.jpg" alt="">
+    </div>
+
+</body>
+</html>
