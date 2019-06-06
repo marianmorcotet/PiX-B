@@ -2,7 +2,7 @@
 
 @keyframes Gradient {
   from{background-position: 0 0;}
-  to{background-position: 100% 80%;}
+  to{background-position: 100% 75%;}
 }
 body {
 	background: linear-gradient(-45deg, red, blue, pink, green);
@@ -16,6 +16,29 @@ body {
   padding: 8% 0 0;
   margin: auto;
 }
+
+@@keyframes identifier {
+
+}
+
+@keyframes formAnimationReg {
+    from{transform: translateY(-20px);}
+    to{transform: translateY(0px);}
+}
+
+#register-form input{
+  animation: formAnimationReg 2s;
+}
+
+@keyframes formAnimationLog{
+  from{transform: translateY(20px);}
+  to{transform: translateY(0px);}
+}
+
+#login-form input{
+  animation: formAnimationLog 2s;
+}
+
 .form {
   position: relative;
   z-index: 1;
@@ -25,8 +48,8 @@ body {
   padding: 45px;
   text-align: center;
   box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
-  animation: 2s;
 }
+
 .form input {
   font-family: "Roboto", sans-serif;
   background: #f2f2f2;
@@ -77,4 +100,15 @@ body {
 
 .login-form.inactive{
   display: none;
+}
+
+@media screen and (max-width:370px) {
+  .login-page{
+    width: auto;
+  }
+  .form{
+    width: auto;
+    margin-left: 5%;
+    margin-right: 5%;
+  }
 }
