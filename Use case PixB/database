@@ -33,7 +33,7 @@ CREATE TABLE Users(
   id_user int NOT NULL UNIQUE AUTO_INCREMENT,
   username varchar(50) NOT NULL,
   email varchar(50) NOT NULL UNIQUE,
-  password varchar(50) NOT NULL,
+  password varchar(60) NOT NULL,
   PRIMARY KEY (id_user)
 );
 
@@ -42,7 +42,7 @@ CREATE TABLE PersistentSession(
   id_session int NOT NULL UNIQUE AUTO_INCREMENT,
   token varchar(255) NOT NULL,
   id_user int NOT NULL,
-  expires datetime NOT NULL,
+  expires timestamp NOT NULL,
   PRIMARY KEY (id_session)
 );
 
