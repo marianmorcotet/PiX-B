@@ -1,0 +1,55 @@
+DROP DATABASE IF EXISTS pixData;
+CREATE DATABASE pixData;
+
+DROP TABLE IF EXISTS Pictures;
+CREATE TABLE Pictures (
+  id_picture int NOT NULL UNIQUE AUTO_INCREMENT,
+  id_user_owner int NOT NULL,
+  title varchar(50),
+  description varchar(255),
+  picture longblob,
+  date datetime,
+  PRIMARY KEY (id_picture)
+);
+
+DROP TABLE IF EXISTS TagRelations;
+CREATE TABLE TagRelations(
+  id_relation int NOT NULL UNIQUE AUTO_INCREMENT,
+  id_tag int NOT NULL,
+  id_picture int NOT NULL,
+  PRIMARY KEY (id_relation)
+);
+
+DROP TABLE IF EXISTS Tags;
+CREATE TABLE Tags(
+  id_tag int NOT NULL UNIQUE AUTO_INCREMENT,
+  tag_name varchar(50) NOT NULL,
+  PRIMARY KEY (id_tag)
+);
+
+
+DROP TABLE IF EXISTS Users;
+CREATE TABLE Users(
+  id_user int NOT NULL UNIQUE AUTO_INCREMENT,
+  email varchar(50) NOT NULL UNIQUE,
+  password varchar(50) NOT NULL,
+  PRIMARY KEY (id_user)
+);
+
+DROP TABLE IF EXISTS PersistentSession;
+CREATE TABLE PersistentSession(
+  id_session int NOT NULL UNIQUE AUTO_INCREMENT,
+  token varchar(255) NOT NULL,
+  id_user int NOT NULL,
+  expires datetime NOT NULL,
+  PRIMARY KEY (id_session)
+);
+
+ALTER TABLE Pictures
+ADD FOREIGN KEY (id_user_owner) REFERENCES Users(id_user);
+ALTER TABLE TagRelations
+ADD FOREIGN KEY (id_tag) REFERENCES Tags(id_tag);
+ALTER TABLE TagRelations
+ADD FOREIGN KEY (id_picture) REFERENCES Pictures(id_picture);
+ALTER TABLE PersistentSession
+ADD FOREIGN KEY (id_user) REFERENCES Users(id_user);
