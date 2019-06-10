@@ -33,7 +33,7 @@
                <form method="post" enctype="multipart/form-data">
                     <input type="file" name="image" id="image" multiple="" />
                     <br />
-                    <input id="Describe" type="text" name="Describe" />
+                    <input id="Describe" type="text" name="Describe" placeholder="Describe" />
                     <br />
                     <input type="submit" name="insert" id="insert" value="Insert" class="btn btn-info" />
                </form>
