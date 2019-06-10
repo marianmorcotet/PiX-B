@@ -31,6 +31,7 @@ CREATE TABLE Tags(
 DROP TABLE IF EXISTS Users;
 CREATE TABLE Users(
   id_user int NOT NULL UNIQUE AUTO_INCREMENT,
+  username varchar(50) NOT NULL,
   email varchar(50) NOT NULL UNIQUE,
   password varchar(50) NOT NULL,
   PRIMARY KEY (id_user)
