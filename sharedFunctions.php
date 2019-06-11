@@ -12,7 +12,9 @@
         $userId = checkExistingSession();
         $_SESSION['userId'] = $userId;
         $_SESSION['ceva'] = "ceva";
-        // print_r($_SESSION['userId']);
+        if(!$userId){
+            Header("Location: http://localhost/pixB/PiX-B/");
+        }
         return $userId;
     }
 
@@ -52,7 +54,7 @@
         $_SESSION["userId"] = getUserId($_POST["email"]);
         savePersistentSession(session_id(), getUserId($_POST["email"]), $dateTime);
 
-        header("Location: http://localhost/pixB/PiX-B/home.php");
+        header("Location: http://localhost/pixB/PiX-B/Gallery.php");
     }
 
     function getUserId($email){

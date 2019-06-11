@@ -5,6 +5,7 @@ DROP TABLE IF EXISTS Pictures;
 CREATE TABLE Pictures (
   id_picture int NOT NULL UNIQUE AUTO_INCREMENT,
   id_user_owner int NOT NULL,
+  name varchar(50),
   title varchar(50),
   description varchar(255),
   picture longblob,
