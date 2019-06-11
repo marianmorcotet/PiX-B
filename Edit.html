@@ -8,48 +8,38 @@
     <title>Edit</title>
 </head>
 <body>
-
-    <header class="edit-set">
-
-        <div class="right">
-          <button class="rotation">Rotate left</button>
-          <button class="rotation">Rotate right</button>
-          <label for="filtre">Filtre</label>
-           <select id="filtre" name="filtre">
-               <option >Dark</option>
-               <option >Blue</option>
-               <option >Green</option>
-            </select>
-            <label for="filtre">Convert</label>
-           <select id="filtre" name="filtre">
-               <option >JPG</option>
-               <option >PNG</option>
-               <option >CSV</option>
-            </select>
-        </div>
-        
-        <div class="size">
-            <form action="">
-                <label for="wsize">Width</label>
-                <input type="text" id="wsize" name="widthsize" placeholder="Size width..">
-              
-                <label for="hsize">Height</label>
-                <input type="text" id="hsize" name="heightsize" placeholder="Size height..">
-            </form>
-        </div>
-
-
-        <div class="center">
-                <h3>Edit image</h3>
-                <button class="cancel">Cancel</button>
-                <button class="save">Save</button>
-        </div>
-    </header>
-
-
-    <div id="mainImage" class="image">
-        <img src="http://timelapse.ro/wp-content/uploads/2016/02/Iasi-at-Night-Hyperlapse.jpg" alt="">
+    
+    <div id="mainImage">
+        <header>
+                <h1 id="imageTitle">image title</h1>
+        </header>
+        <img id="editedImage" src="http://timelapse.ro/wp-content/uploads/2016/02/Iasi-at-Night-Hyperlapse.jpg" alt="">
     </div>
 
+    <div id="rightMenu">
+        <!-- <input type="text" placeholder="write new title">
+        <input type="text" name="" placeholder="write new description">
+        <hr> -->
+        <label for="">Blur</label>
+        <input type="range" min="0" max="100" value="0" step="1" onchange="applyFilter()" data-filter="blur" data-scale="px"><br>
+        <label for="">Brightness</label>
+        <input type="range" min="0" max="200" value="100" step="1" onchange="applyFilter()" data-filter="brightness" data-scale="%"><br>
+        <label for="">Contrast</label>
+        <input type="range" min="0" max="200" value="100" step="1" onchange="applyFilter()" data-filter="contrast" data-scale="%"><br>
+        <label for="">Grayscale</label>
+        <input type="range" min="0" max="100" value="0" step="1" onchange="applyFilter()" data-filter="grayscale" data-scale="%"><br>
+        <label for="">Hue Rotate</label>
+        <input type="range" min="0" max="360" value="0" step="1" onchange="applyFilter()" data-filter="hue-rotate" data-scale="deg"><br>
+        <label for="">Invert</label>
+        <input type="range" min="0" max="100" value="0" step="1" onchange="applyFilter()" data-filter="invert" data-scale="%"><br>
+        <label for="">Opacity</label>
+        <input type="range" min="0" max="100" value="100" step="1" onchange="applyFilter()" data-filter="opacity" data-scale="%"><br>
+        <label for="">Saturate</label>
+        <input type="range" min="1" max="100" value="1" step="1" onchange="applyFilter()" data-filter="saturate" data-scale=""><br>
+        <label for="">Sepia</label>
+        <input type="range" min="0" max="100" value="0" step="1" onchange="applyFilter()" data-filter="sepia" data-scale="%"><br>
+
+    </div>
+    <script src="scripts/edit.js"></script>
 </body>
 </html>

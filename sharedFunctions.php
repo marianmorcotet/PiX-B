@@ -53,7 +53,7 @@
         $dateTime = time() + $lifetime;
         setcookie(session_name(), session_id(), $dateTime);
         $_SESSION["userId"] = getUserId($_POST["email"]);
-        savePersistentSession(session_id(), getUserId($_POST["email"]), $dateTime);
+        savePersistentSession(session_id(), $_SESSION["userId"], $dateTime);
         // header("Location: http://localhost/pixB/PiX-B/Gallery.php");
     }
 
