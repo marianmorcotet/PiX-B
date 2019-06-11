@@ -1,7 +1,9 @@
 <?php
     include("sharedFunctions.php");
 
-    checkSession();
+    if(checkSession() != 0){
+        startPersistentSession();
+    }
 
     function getUserPassword($userId){
         $conn = mysqli_connect("localhost", "root", "", "pixData");
@@ -30,12 +32,7 @@
             // $password = mysqli_real_escape_string($password);
 
             if(password_verify($password, getUserPassword($userId))){
-                $userId = 0;
-                $userId = checkExistingSession();
-                if($userId == 0){
-                    //daca nu exista deja sesiunea, se creeaza
-                    startPersistentSession();
-                }
+                startPersistentSession();
             }
         }
     }

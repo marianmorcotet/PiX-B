@@ -7,21 +7,21 @@
     }
 
     function checkSession(){
-        $userId = 0;
+        session_start();
+        
         $userId = checkExistingSession();
-        if($userId == 0){
-            //daca nu exista deja sesiunea, se creeaza
-            startPersistentSession();
-            $_SESSION['userId'] = $userId;
-            // header("Location: http://localhost/pixB/PiX-B/home.php");
-        }
+        $_SESSION['userId'] = $userId;
+        $_SESSION['ceva'] = "ceva";
+        // print_r($_SESSION['userId']);
+        return $userId;
     }
 
     function checkExistingSession(){
         $conn = mysqli_connect("localhost", "root", "", "pixData");
 
-        $stmt = $conn->prepare("SELECT id_user FROM PersistentSession WHERE token = ?");
-        $stmt->bind_param("s", session_id());
+        $stmt = $conn->prepare("SELECT DISTINCT id_user FROM PersistentSession");
+        $sesId = session_id();
+        // $stmt->bind_param("s", $sesId);
         $stmt->execute();
 
         $stmt->bind_result($userId);
@@ -33,12 +33,11 @@
         return $userId;
     }
 
-    function savePersistentSession($sessionName, $userId, $dateTime){
+    function savePersistentSession($sessToken, $userId, $dateTime){
         $conn = mysqli_connect("localhost", "root", "", "pixData");
-        //sa verificam
+        
         $stmt = $conn->prepare("INSERT INTO PersistentSession(token, id_user, expires) VALUES(?, ?, ?)");
-        // $dateTime = date('Y-m-d G:i:s');
-        $stmt->bind_param("sid", $sessionName, $userId, $dateTime);
+        $stmt->bind_param("sid", $sessToken, $userId, $dateTime);
         $stmt->execute();
 
         $stmt->close();
@@ -48,10 +47,11 @@
     function startPersistentSession(){
         $lifetime = 60 * 60 * 2;
         session_start();
-        $dateTime = date('Y-m-d G:i:s') + $lifetime;
+        $dateTime = time() + $lifetime;
         setcookie(session_name(), session_id(), $dateTime);
+        $_SESSION["userId"] = getUserId($_POST["email"]);
         savePersistentSession(session_id(), getUserId($_POST["email"]), $dateTime);
-        echo "am inceput";
+
         header("Location: http://localhost/pixB/PiX-B/home.php");
     }
 
