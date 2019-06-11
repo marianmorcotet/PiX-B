@@ -1,6 +1,16 @@
 <?php  
+
+include("sharedFunctions.php");
+checkSession();
+// if ( != 0){
+//      startPersistentSession();
+// }
+// }else{
+//      // Header("Location: http://localhost/pixB/PiX-B/");
+// }
+
 //Upload database
- $connect = mysqli_connect("localhost", "root", "", "test"); 
+ $connect = mysqli_connect("localhost", "root", "", "pixData"); 
   
  if(isset($_POST["insert"]))  
  {  
@@ -8,7 +18,7 @@
      $file_array=reArrayFiles($_FILES['image']);
      $file_count=count($file_array);
      //print_r($file_array);
-     //print_r($file_count);
+    // print_r($file_count);
 
      if($file_array['0']['size']== 0)
      {
@@ -20,15 +30,25 @@
           for($i=0;$i<$file_count;$i++){
                $file = addslashes(file_get_contents($file_array[$i]['tmp_name']));  
                $title= addslashes($file_array[$i]['name']);
-               $query = "INSERT INTO tbl_images(name,title) VALUES ('$file','$title')";
+               $type=$file_array[$i]['type'];
+               //$ext = pathinfo($title, PATHINFO_EXTENSION);
+               $size= $file_array[$i]['size'];
+               $id_user=1;
+               $query = "INSERT INTO pictures(id_user_owner,picture,title,type,size) VALUES ('$id_user','$file','$title','$type','$size')";
                if(mysqli_query($connect, $query))  
                {  
                     $ok=1; 
                }
+               else{
+                    $ok=0;
+               }
           }
           if($ok!=0){
                echo '<script>alert("Image Inserted into Database")</script>';
-          }  
+          }
+          else{
+               echo "Nu s-a inserat!";
+          }
      }
      
  }
@@ -54,7 +74,7 @@
           <meta http-equiv="X-UA-Compatible" content="ie=edge">
           <title>Gallery</title>
      </head>
-     <body>  
+     <body> 
           <header>
 		     <h1>Your images</h1>
                <form method="post" enctype="multipart/form-data">
@@ -78,20 +98,20 @@
           <div class="gallery">
                <?php  
                //Afisare Imaginii
-               $query = "SELECT * FROM tbl_images ORDER BY id DESC";  
+               $query = "SELECT * FROM pictures ORDER BY id_picture DESC";  
                $result = mysqli_query($connect, $query);  
                while($row = mysqli_fetch_array($result))  
                {  
                     echo '  
                          <div class="image">
-                              <img src="data:image/jpeg;base64,'.base64_encode($row['name'] ).'" alt="">
+                              <img src="data:image/jpeg;base64,'.base64_encode($row['picture'] ).'" alt="">
                               <h3>About this photo:</h3>
                               <p>Descriere imagine</p>
                               <label class="image-menu">';
                               ?>
-                              <a href="delete.php?id=<?php echo $row["id"]; ?>">Delete</a> <?php
+                              <a href="delete.php?id=<?php echo $row["id_picture"]; ?>">Delete</a>
+                              <a href="download.php?id=<?php echo $row["id_picture"]; ?>">Download</a> <?php
                                    echo ' <button>Edit</button>
-                                   <button>Save</button>
                               </label>
                          </div>
                     ';
@@ -100,26 +120,4 @@
           </div>
       </body>  
 
- </html>  
- <script>  
- $(document).ready(function(){  
-      $('#insert').click(function(){  
-           var image_name = $('#image').val();  
-           if(image_name === '')  
-           {  
-                alert("Please Select Image");  
-                return false;  
-           }  
-           else  
-           {  
-                var extension = $('#image').val().split('.').pop().toLowerCase();  
-                if(jQuery.inArray(extension, ['gif','png','jpg','jpeg']) == -1)  
-                {  
-                     alert('Invalid Image File');  
-                     $('#image').val('');  
-                     return false;  
-                }  
-           }  
-      });  
- });  
- </script>  
+ </html>
