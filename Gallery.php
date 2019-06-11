@@ -1,22 +1,49 @@
 <?php  
 //Upload database
- $connect = mysqli_connect("localhost", "root", "", "test");  
+ $connect = mysqli_connect("localhost", "root", "", "test"); 
+  
  if(isset($_POST["insert"]))  
  {  
-     if(getimagesize ($_FILES['image']['tmp_name'])=== FALSE)
+     
+     $file_array=reArrayFiles($_FILES['image']);
+     $file_count=count($file_array);
+     //print_r($file_array);
+     //print_r($file_count);
+
+     if($file_array['0']['size']== 0)
      {
-         echo '<h3>Please select an image.</h3>';
+          echo "Please select an image.";
      }
-     else{
-      $file = addslashes(file_get_contents($_FILES["image"]["tmp_name"]));  
-      $title= addslashes($_FILES['image']['name']);
-      $query = "INSERT INTO tbl_images(name,title) VALUES ('$file','$title')";  
-      if(mysqli_query($connect, $query))  
-      {  
-           echo '<script>alert("Image Inserted into Database")</script>';  
-      }  
+     else
+     {
+     
+          for($i=0;$i<$file_count;$i++){
+               $file = addslashes(file_get_contents($file_array[$i]['tmp_name']));  
+               $title= addslashes($file_array[$i]['name']);
+               $query = "INSERT INTO tbl_images(name,title) VALUES ('$file','$title')";
+               if(mysqli_query($connect, $query))  
+               {  
+                    $ok=1; 
+               }
+          }
+          if($ok!=0){
+               echo '<script>alert("Image Inserted into Database")</script>';
+          }  
      }
- }  
+     
+ }
+ function reArrayFiles($file_post){
+     $file_ary=array();
+     $file_count= count($file_post['name']);
+     $file_keys=array_keys($file_post);
+
+     for($i=0;$i<$file_count;$i++){
+         foreach($file_keys as $key){
+             $file_ary[$i][$key]=$file_post[$key][$i];
+         }
+     }
+     return $file_ary;
+}  
  ?>  
  <!DOCTYPE html>  
  <html>  
@@ -31,7 +58,7 @@
           <header>
 		     <h1>Your images</h1>
                <form method="post" enctype="multipart/form-data">
-                    <input type="file" name="image" id="image" multiple="" />
+                    <input type="file" name="image[]" id="image" multiple="" />
                     <br />
                     <input id="Describe" type="text" name="Describe" placeholder="Describe" />
                     <br />
