@@ -87,10 +87,11 @@
                               <img src="data:image/jpeg;base64,'.base64_encode($row['name'] ).'" alt="">
                               <h3>About this photo:</h3>
                               <p>Descriere imagine</p>
-                              <label class="image-menu">
-                                   <button>Download</button>
-                                   <button>Edit</button>
-                                   <button>Delete</button>
+                              <label class="image-menu">';
+                              ?>
+                              <a href="delete.php?id=<?php echo $row["id"]; ?>">Delete</a> <?php
+                                   echo ' <button>Edit</button>
+                                   <button>Save</button>
                               </label>
                          </div>
                     ';
