@@ -17,8 +17,10 @@ checkSession();
      
      $file_array=reArrayFiles($_FILES['image']);
      $file_count=count($file_array);
+     $describe=$_POST['describe'];
+     //print_r($describe);
      //print_r($file_array);
-    // print_r($file_count);
+     //print_r($file_count);
 
      if($file_array['0']['size']== 0)
      {
@@ -34,7 +36,7 @@ checkSession();
                //$ext = pathinfo($title, PATHINFO_EXTENSION);
                $size= $file_array[$i]['size'];
                $id_user=1;
-               $query = "INSERT INTO pictures(id_user_owner,picture,title,type,size) VALUES ('$id_user','$file','$title','$type','$size')";
+               $query = "INSERT INTO pictures(id_user_owner,picture,title,type,size,description) VALUES ('$id_user','$file','$title','$type','$size','$describe')";
                if(mysqli_query($connect, $query))  
                {  
                     $ok=1; 
@@ -80,7 +82,7 @@ checkSession();
                <form method="post" enctype="multipart/form-data">
                     <input type="file" name="image[]" id="image" multiple="" />
                     <br />
-                    <input id="Describe" type="text" name="Describe" placeholder="Describe" />
+                    <input id="describe" type="text" name="describe" placeholder="Describe" />
                     <br />
                     <input type="submit" name="insert" id="insert" value="Insert" class="btn btn-info" />
                </form>
@@ -106,7 +108,7 @@ checkSession();
                          <div class="image">
                               <img src="data:image/jpeg;base64,'.base64_encode($row['picture'] ).'" alt="">
                               <h3>About this photo:</h3>
-                              <p>Descriere imagine</p>
+                              <p>'.$row['description'].'</p>
                               <label class="image-menu">';
                               ?>
                               <a href="delete.php?id=<?php echo $row["id_picture"]; ?>">Delete</a>
@@ -118,6 +120,6 @@ checkSession();
                }
                ?>  
           </div>
-      </body>  
+     </body>  
 
- </html>
+</html>
