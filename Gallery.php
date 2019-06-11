@@ -87,38 +87,118 @@ checkSession();
                     <input type="submit" name="insert" id="insert" value="Insert" class="btn btn-info" />
                </form>
           
-		     <select>
-			     <option>All image</option>
-			     <option>Sort by data</option>
-			     <option>Sort by #montain</option>
-		     </select>
+		     <form  method="post">
+                    <p>Filter by:</p>
+                    <select name="Filter">
+                         <option value="Default">Nothing</option>
+                         <option value="jpg">Jpg picture's</option>
+                         <option value="png">Png picture's</option>
+                    </select>
+                    <input type="submit" name="select" value="Get Selected Values" />
+               </form>
                <!-- <div class="filter">
                <button type="filter-by">Filter by</button>
                <input type="text" placeholder="date/tag">
                </div> -->
           </header>
           <div class="gallery">
-               <?php  
-               //Afisare Imaginii
-               $query = "SELECT * FROM pictures ORDER BY id_picture DESC";  
-               $result = mysqli_query($connect, $query);  
-               while($row = mysqli_fetch_array($result))  
-               {  
-                    echo '  
-                         <div class="image">
-                              <img src="data:image/jpeg;base64,'.base64_encode($row['picture'] ).'" alt="">
-                              <h3>About this photo:</h3>
-                              <p>'.$row['description'].'</p>
-                              <label class="image-menu">';
-                              ?>
-                              <a href="delete.php?id=<?php echo $row["id_picture"]; ?>">Delete</a>
-                              <a href="download.php?id=<?php echo $row["id_picture"]; ?>">Download</a> <?php
-                                   echo ' <button>Edit</button>
-                              </label>
-                         </div>
-                    ';
-               }
-               ?>  
+
+               <?php
+                    if(isset($_POST['select'])){
+                         $selected_val = $_POST['Filter'];  // Storing Selected Value In Variable
+                         //echo "You have selected :" .$selected_val;  // Displaying Selected Value
+
+                         switch($selected_val){
+                              case "Default":
+                              //Afisare Imaginii
+                              $query = "SELECT * FROM pictures ORDER BY id_picture DESC";  
+                              $result = mysqli_query($connect, $query);  
+                              while($row = mysqli_fetch_array($result))  
+                              {  
+                                   echo '  
+                                        <div class="image">
+                                             <img src="data:image/jpeg;base64,'.base64_encode($row['picture'] ).'" alt="">
+                                             <h3>About this photo:</h3>
+                                             <p>'.$row['description'].'</p>
+                                             <label class="image-menu">';
+                                             ?>
+                                             <a href="delete.php?id=<?php echo $row["id_picture"]; ?>">Delete</a>
+                                             <a href="download.php?id=<?php echo $row["id_picture"]; ?>">Download</a> <?php
+                                                  echo ' <button>Edit</button>
+                                             </label>
+                                        </div>
+                                   ';
+                              }
+                              case "jpg":
+                              //Afisare Imaginii
+                              $query = "SELECT * FROM pictures where type like '%jpeg%' ORDER BY id_picture DESC";  
+                              $result = mysqli_query($connect, $query);  
+                              while($row = mysqli_fetch_array($result))  
+                              {  
+                                   echo '  
+                                        <div class="image">
+                                             <img src="data:image/jpeg;base64,'.base64_encode($row['picture'] ).'" alt="">
+                                             <h3>About this photo:</h3>
+                                             <p>'.$row['description'].'</p>
+                                             <label class="image-menu">';
+                                             ?>
+                                             <a href="delete.php?id=<?php echo $row["id_picture"]; ?>">Delete</a>
+                                             <a href="download.php?id=<?php echo $row["id_picture"]; ?>">Download</a> <?php
+                                                  echo ' <button>Edit</button>
+                                             </label>
+                                        </div>
+                                   ';
+                              }
+                              case "png":
+                              //Afisare Imaginii
+                              $query = "SELECT * FROM pictures where type like '%png%' ORDER BY id_picture DESC";  
+                              $result = mysqli_query($connect, $query);  
+                              while($row = mysqli_fetch_array($result))  
+                              {  
+                                   echo '  
+                                        <div class="image">
+                                             <img src="data:image/jpeg;base64,'.base64_encode($row['picture'] ).'" alt="">
+                                             <h3>About this photo:</h3>
+                                             <p>'.$row['description'].'</p>
+                                             <label class="image-menu">';
+                                             ?>
+                                             <a href="delete.php?id=<?php echo $row["id_picture"]; ?>">Delete</a>
+                                             <a href="download.php?id=<?php echo $row["id_picture"]; ?>">Download</a> <?php
+                                                  echo ' <button>Edit</button>
+                                             </label>
+                                        </div>
+                                   ';
+                              }
+
+                         }
+
+
+                    }
+                    else{
+                         //Afisare Imaginii
+                         $query = "SELECT * FROM pictures ORDER BY id_picture DESC";  
+                         $result = mysqli_query($connect, $query);  
+                         while($row = mysqli_fetch_array($result))  
+                         {  
+                              echo '  
+                                   <div class="image">
+                                        <img src="data:image/jpeg;base64,'.base64_encode($row['picture'] ).'" alt="">
+                                        <h3>About this photo:</h3>
+                                        <p>'.$row['description'].'</p>
+                                        <label class="image-menu">';
+                                        ?>
+                                        <a href="delete.php?id=<?php echo $row["id_picture"]; ?>">Delete</a>
+                                        <a href="download.php?id=<?php echo $row["id_picture"]; ?>">Download</a> <?php
+                                             echo ' <button>Edit</button>
+                                        </label>
+                                   </div>
+                              ';
+                         }
+
+                    }
+               ?>
+
+               
           </div>
      </body>  
 
