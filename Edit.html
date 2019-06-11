@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <link rel="stylesheet" type="text/css" media="screen" href="styles/edit.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="styles/loginStyles.css">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
@@ -13,7 +14,16 @@
         <header>
                 <h1 id="imageTitle">image title</h1>
         </header>
-        <img id="editedImage" src="http://timelapse.ro/wp-content/uploads/2016/02/Iasi-at-Night-Hyperlapse.jpg" alt="">
+        <img id="editedImage" alt="">
+
+        <div id="bottomMenu">
+                <form action="updatePhoto.php">
+                    <input type="text" placeholder="write new title">
+                    <input type="text" placeholder="write new description">
+                    <input type="text" placeholder="tag1,tag2,tag3..">
+                    <button type="submit">Save changes</button>
+                </form>
+            </div>
     </div>
 
     <div id="rightMenu">
@@ -40,6 +50,9 @@
         <input type="range" min="0" max="100" value="0" step="1" onchange="applyFilter()" data-filter="sepia" data-scale="%"><br>
 
     </div>
+
+    
     <script src="scripts/edit.js"></script>
+    <!-- <script src="scripts"></script> -->
 </body>
 </html>
