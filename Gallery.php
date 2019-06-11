@@ -1,13 +1,12 @@
 <?php  
 //Upload database
 include("sharedFunctions.php");
-checkSession();
-// if ( != 0){
-//      startPersistentSession();
-// }
-// }else{
-//      // Header("Location: http://localhost/pixB/PiX-B/");
-// }
+
+if (checkSession() != 0){
+     startPersistentSession();
+}else{
+     Header("Location: http://localhost/pixB/PiX-B/");
+}
 
  $connect = mysqli_connect("localhost", "root", "", "pixData"); 
   
@@ -64,7 +63,7 @@ checkSession();
      </head>
      <body>  
           <header>
-		     <h1>Your images</h1>
+		     <h1 id="galleryTitle">Your images</h1>
                <form method="post" enctype="multipart/form-data">
                     <input type="file" name="image[]" id="image" multiple="" />
                     <br />
@@ -81,7 +80,7 @@ checkSession();
                <!-- <div class="filter">
                <button type="filter-by">Filter by</button>
                <input type="text" placeholder="date/tag">
-               </div> -->9
+               </div> -->
           </header>
           <div class="gallery">
                <?php  
@@ -106,6 +105,7 @@ checkSession();
                }
                ?>  
           </div>
+          <script src="scripts/handleSession.js"></script>
       </body>  
 
  </html>  

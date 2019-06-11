@@ -10,8 +10,9 @@
         session_start();
         
         $userId = checkExistingSession();
+        $username = getUserName($userId);
         $_SESSION['userId'] = $userId;
-        $_SESSION['ceva'] = "ceva";
+        $_SESSION['userName'] = $username;
         if(!$userId){
             Header("Location: http://localhost/pixB/PiX-B/");
         }
@@ -21,9 +22,9 @@
     function checkExistingSession(){
         $conn = mysqli_connect("localhost", "root", "", "pixData");
 
-        $stmt = $conn->prepare("SELECT DISTINCT id_user FROM PersistentSession");
+        $stmt = $conn->prepare("SELECT id_user FROM PersistentSession WHERE token = ?");
         $sesId = session_id();
-        // $stmt->bind_param("s", $sesId);
+        $stmt->bind_param("s", $sesId);
         $stmt->execute();
 
         $stmt->bind_result($userId);
@@ -31,7 +32,7 @@
 
         $stmt->close();
         mysqli_close($conn);
-        
+
         return $userId;
     }
 
@@ -48,13 +49,12 @@
 
     function startPersistentSession(){
         $lifetime = 60 * 60 * 2;
-        session_start();
+        // session_start();
         $dateTime = time() + $lifetime;
         setcookie(session_name(), session_id(), $dateTime);
         $_SESSION["userId"] = getUserId($_POST["email"]);
         savePersistentSession(session_id(), getUserId($_POST["email"]), $dateTime);
-
-        header("Location: http://localhost/pixB/PiX-B/Gallery.php");
+        // header("Location: http://localhost/pixB/PiX-B/Gallery.php");
     }
 
     function getUserId($email){
@@ -74,5 +74,24 @@
         mysqli_close($conn);
 
         return $userId;
+    }
+
+    function getUserName($userId){
+        $conn = mysqli_connect("localhost", "root", "", "pixData");
+
+        $userId = clearInput($userId);
+        $userId = mysqli_real_escape_string($conn, $userId);
+
+        $stmt = $conn->prepare("SELECT username FROM Users WHERE id_user = ?");
+        $stmt->bind_param("s", $userId);
+        $stmt->execute();
+        
+        $stmt->bind_result($username);
+        $stmt->fetch();
+
+        $stmt->close();
+        mysqli_close($conn);
+
+        return $username;
     }
 ?>

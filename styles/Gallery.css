@@ -153,3 +153,9 @@ image-menu button:hover, image-menu button:active, image-menu button:focus {
         justify-content: space-between;
     }
 }
+
+
+#mainImage img{
+    max-width: 800;
+    max-height: 800;
+}

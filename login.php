@@ -33,6 +33,7 @@
 
             if(password_verify($password, getUserPassword($userId))){
                 startPersistentSession();
+                header("Location: http://localhost/pixB/PiX-B/Gallery.php");
             }
         }
     }
