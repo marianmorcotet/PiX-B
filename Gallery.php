@@ -1,22 +1,57 @@
 <?php  
 //Upload database
- $connect = mysqli_connect("localhost", "root", "", "test");  
+include("sharedFunctions.php");
+checkSession();
+// if ( != 0){
+//      startPersistentSession();
+// }
+// }else{
+//      // Header("Location: http://localhost/pixB/PiX-B/");
+// }
+
+ $connect = mysqli_connect("localhost", "root", "", "pixData"); 
+  
  if(isset($_POST["insert"]))  
  {  
-     if(getimagesize ($_FILES['image']['tmp_name'])=== FALSE)
+     
+     $file_array=reArrayFiles($_FILES['image']);
+     $file_count=count($file_array);
+
+     if($file_array['0']['size']== 0)
      {
-         echo '<h3>Please select an image.</h3>';
+          echo "Please select an image.";
      }
-     else{
-      $file = addslashes(file_get_contents($_FILES["image"]["tmp_name"]));  
-      $title= addslashes($_FILES['image']['name']);
-      $query = "INSERT INTO tbl_images(name,title) VALUES ('$file','$title')";  
-      if(mysqli_query($connect, $query))  
-      {  
-           echo '<script>alert("Image Inserted into Database")</script>';  
-      }  
+     else
+     {
+     
+          for($i=0;$i<$file_count;$i++){
+               $file = addslashes(file_get_contents($file_array[$i]['tmp_name']));  
+               $title= addslashes($file_array[$i]['name']);
+               $query = "INSERT INTO Pictures(id_user_owner, picture,title) VALUES (1, '$file','$title')";
+
+               if(mysqli_query($connect, $query))  
+               {  
+                    $ok=1; 
+               }
+          }
+          if($ok!=0){
+               echo '<script>alert("Image Inserted into Database")</script>';
+          }  
      }
- }  
+     
+ }
+ function reArrayFiles($file_post){
+     $file_ary=array();
+     $file_count= count($file_post['name']);
+     $file_keys=array_keys($file_post);
+
+     for($i=0;$i<$file_count;$i++){
+         foreach($file_keys as $key){
+             $file_ary[$i][$key]=$file_post[$key][$i];
+         }
+     }
+     return $file_ary;
+}  
  ?>  
  <!DOCTYPE html>  
  <html>  
@@ -31,7 +66,7 @@
           <header>
 		     <h1>Your images</h1>
                <form method="post" enctype="multipart/form-data">
-                    <input type="file" name="image" id="image" multiple="" />
+                    <input type="file" name="image[]" id="image" multiple="" />
                     <br />
                     <input id="Describe" type="text" name="Describe" placeholder="Describe" />
                     <br />
@@ -46,24 +81,25 @@
                <!-- <div class="filter">
                <button type="filter-by">Filter by</button>
                <input type="text" placeholder="date/tag">
-               </div> -->
+               </div> -->9
           </header>
           <div class="gallery">
                <?php  
                //Afisare Imaginii
-               $query = "SELECT * FROM tbl_images ORDER BY id DESC";  
+               $query = "SELECT * FROM Pictures ORDER BY id_picture DESC";  
                $result = mysqli_query($connect, $query);  
                while($row = mysqli_fetch_array($result))  
                {  
                     echo '  
                          <div class="image">
-                              <img src="data:image/jpeg;base64,'.base64_encode($row['name'] ).'" alt="">
+                              <img src="data:image/jpeg;base64,'.base64_encode($row['picture'] ).'" alt="">
                               <h3>About this photo:</h3>
                               <p>Descriere imagine</p>
-                              <label class="image-menu">
-                                   <button>Download</button>
-                                   <button>Edit</button>
-                                   <button>Delete</button>
+                              <label class="image-menu">';
+                              ?>
+                              <a href="delete.php?id=<?php echo $row["id_picture"]; ?>">Delete</a> <?php
+                                   echo ' <button>Edit</button>
+                                   <button>Save</button>
                               </label>
                          </div>
                     ';
@@ -73,7 +109,7 @@
       </body>  
 
  </html>  
- <script>  
+ <!-- <script>  
  $(document).ready(function(){  
       $('#insert').click(function(){  
            var image_name = $('#image').val();  
@@ -94,4 +130,4 @@
            }  
       });  
  });  
- </script>  
+ </script>   -->
