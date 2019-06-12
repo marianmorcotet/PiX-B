@@ -67,11 +67,6 @@ hr{
     border-style: dotted;
 }
 
-#editedCanvas{
-    width: auto;
-    height: auto;
-}
-
 #rightMenu{
     float: right;
     max-width: 350px;

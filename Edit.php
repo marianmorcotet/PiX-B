@@ -15,7 +15,7 @@
                 <!-- <h1 id="imageTitle">image title</h1> -->
         </header>
 
-        <canvas id="editedCanvas">
+        <canvas id="editedCanvas" height="500" width="700">
             <?php
             session_start();
             $pictureId = $_GET['id'];

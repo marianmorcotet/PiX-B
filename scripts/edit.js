@@ -1,5 +1,4 @@
 var canvas = document.getElementById("editedCanvas");
-// var image = document.getElementById("editedImage");
 var image = document.getElementById("editedImage");
 var context = canvas.getContext('2d');
 var filterControls = document.querySelectorAll("input[type=range]");
@@ -10,7 +9,8 @@ function applyFilter(){
     });
     context.clearRect(0,0,canvas.width,canvas.height);
     context.filter = computedFilters;
-    context.drawImage(image, 0, 0);
+
+    context.drawImage(image, 0, 0, image.width, image.height, 0, 0, canvas.width, canvas.height);
 
     
 };
