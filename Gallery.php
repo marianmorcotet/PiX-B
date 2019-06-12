@@ -1,12 +1,12 @@
 <?php  
 //Upload database
 include("sharedFunctions.php");
-
-if (checkSession() != 0){
+session_start();
+if (isset($_SESSION['email'])){
      startPersistentSession();
-}else{
+ }else{
      Header("Location: http://localhost/pixB/PiX-B/");
-}
+ }
 
  $connect = mysqli_connect("localhost", "root", "", "pixData"); 
   
@@ -71,7 +71,9 @@ if (checkSession() != 0){
                     <br />
                     <input type="submit" name="insert" id="insert" value="Insert" class="btn btn-info" />
                </form>
-          
+
+               <a href=" logout.php">Logout</a>
+
 		     <select>
 			     <option>All image</option>
 			     <option>Sort by data</option>

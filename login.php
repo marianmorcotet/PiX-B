@@ -1,10 +1,6 @@
 <?php
     include("sharedFunctions.php");
-
-    if(checkSession() != 0){
-        startPersistentSession();
-    }
-
+    session_start();
     function getUserPassword($userId){
         $conn = mysqli_connect("localhost", "root", "", "pixData");
 
@@ -22,18 +18,21 @@
 
         return $resultPassword;
     }
-
+    
     if($_SERVER["REQUEST_METHOD"] == "POST"){
 
         if(isset($_POST["email"]) && isset($_POST["password"])){
             $userId = getUserId($_POST["email"]);
             $password = clearInput($_POST["password"]);
-            // $password = clearInput($password);
-            // $password = mysqli_real_escape_string($password);
+            $_SESSION['email'] = $_POST['email'];
 
             if(password_verify($password, getUserPassword($userId))){
                 startPersistentSession();
+                print_r("parola corecta");
                 header("Location: http://localhost/pixB/PiX-B/Gallery.php");
+            }else{
+                print_r("parola gresita");
+                header("Location: http://localhost/pixB/PiX-B/");
             }
         }
     }

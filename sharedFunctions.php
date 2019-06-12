@@ -14,7 +14,7 @@
         $_SESSION['userId'] = $userId;
         $_SESSION['userName'] = $username;
         if(!$userId){
-            Header("Location: http://localhost/pixB/PiX-B/");
+            // Header("Location: http://localhost/pixB/PiX-B/");
         }
         return $userId;
     }
@@ -47,14 +47,28 @@
         mysqli_close($conn);
     }
 
+    function deletePersistentSession($sessToken){
+        $conn = mysqli_connect("localhost", "root", "", "pixData");
+
+        $stmt = $conn->prepare("DELETE FROM PersistentSession WHERE token = ?");
+        $stmt->bind_param("s", $sessToken);
+        $stmt->execute();
+
+        $stmt->close();
+        mysqli_close($conn);
+    }
+
     function startPersistentSession(){
         $lifetime = 60 * 60 * 2;
-        // session_start();
+
         $dateTime = time() + $lifetime;
+        
         setcookie(session_name(), session_id(), $dateTime);
-        $_SESSION["userId"] = getUserId($_POST["email"]);
+
+        $_SESSION['userId'] = getUserId($_SESSION['email']);
+
         savePersistentSession(session_id(), $_SESSION["userId"], $dateTime);
-        // header("Location: http://localhost/pixB/PiX-B/Gallery.php");
+
     }
 
     function getUserId($email){

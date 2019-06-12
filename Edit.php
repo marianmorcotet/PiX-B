@@ -14,7 +14,16 @@
         <header>
                 <h1 id="imageTitle">image title</h1>
         </header>
-        <img id="editedImage" alt="">
+
+        <canvas id="editedCanvas">
+            <?php
+            $conn = mysqli_connect("localhost", "root", "", "pixData");
+
+            $stmt = $conn->prepare("SELECT picture from Pictures WHERE id_picture = ?");
+            
+            echo '<img src="data:image/jpeg;base64,'.base64_encode($picture).'" alt="">';
+            ?>
+        </canvas>
 
         <div id="bottomMenu">
                 <form action="updatePhoto.php">
