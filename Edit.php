@@ -12,7 +12,7 @@
     
     <div id="mainImage">
         <header>
-                <h1 id="imageTitle">image title</h1>
+                <!-- <h1 id="imageTitle">image title</h1> -->
         </header>
 
         <canvas id="editedCanvas">

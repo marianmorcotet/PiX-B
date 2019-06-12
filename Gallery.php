@@ -77,11 +77,17 @@
 
                <a href=" logout.php">Logout</a>
 
-		     <select>
-			     <option>All image</option>
-			     <option>Sort by data</option>
-			     <option>Sort by #montain</option>
-		     </select>
+               <form  method="post">
+                    <p>Filter by:</p>
+                    <select name="Filter">
+                         <option value="Default">Nothing</option>
+                         <option value="jpg">Jpg picture's</option>
+                         <option value="png">Png picture's</option>
+                         <option value="gif">Gif picture's</option>
+                    </select>
+                    <input type="submit" name="select" value="Apply" />
+               </form>
+
                <!-- <div class="filter">
                <button type="filter-by">Filter by</button>
                <input type="text" placeholder="date/tag">
@@ -188,15 +194,26 @@
                     }
                     else{
                          //Afisare Imaginii
-                         $query = "SELECT * FROM pictures ORDER BY id_picture DESC";  
+
+                         
+                         $id_user=$_SESSION['userId'];
+                         $query = "SELECT * FROM pictures WHERE id_user_owner=$id_user ORDER BY id_picture DESC";  
                          $result = mysqli_query($connect, $query);  
                          while($row = mysqli_fetch_array($result))  
-                         {  
+                         {    
+                              $idPicture = $row['id_picture'];
+                              $queryy = "SELECT tag_name FROM Tags natural join TagRelations WHERE id_picture = $idPicture";
+                              $resultt = mysqli_query($connect, $queryy);
+                              $tagList = "";
+                              while($roww = mysqli_fetch_array($resultt)){
+                                   $tagList = $tagList.$roww['tag_name'].',';
+                              }
                               echo '  
                                    <div class="image">
                                         <img src="data:image/jpeg;base64,'.base64_encode($row['picture'] ).'" alt="">
                                         <h3>About this photo:</h3>
                                         <p>'.$row['description'].'</p>
+                                        <p>'.$tagList.'</p>
                                         <label class="image-menu">';
                                         ?>
                                         <a href="delete.php?id=<?php echo $row["id_picture"]; ?>">Delete</a>
