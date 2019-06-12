@@ -1,13 +1,5 @@
 <?php  
 //Upload database
-include("sharedFunctions.php");
-session_start();
-if (isset($_SESSION['email'])){
-     startPersistentSession();
- }else{
-     Header("Location: http://localhost/pixB/PiX-B/");
- }
-
  $connect = mysqli_connect("localhost", "root", "", "pixData"); 
   
  if(isset($_POST["insert"]))  
@@ -15,6 +7,10 @@ if (isset($_SESSION['email'])){
      
      $file_array=reArrayFiles($_FILES['image']);
      $file_count=count($file_array);
+     $describe=$_POST['describe'];
+     //print_r($describe);
+     //print_r($file_array);
+     //print_r($file_count);
 
      if($file_array['0']['size']== 0)
      {
@@ -26,8 +22,11 @@ if (isset($_SESSION['email'])){
           for($i=0;$i<$file_count;$i++){
                $file = addslashes(file_get_contents($file_array[$i]['tmp_name']));  
                $title= addslashes($file_array[$i]['name']);
-               $query = "INSERT INTO Pictures(id_user_owner, picture,title) VALUES (1, '$file','$title')";
-
+               $type=$file_array[$i]['type'];
+               //$ext = pathinfo($title, PATHINFO_EXTENSION);
+               $size= $file_array[$i]['size'];
+               $id_user=1;
+               $query = "INSERT INTO pictures(id_user_owner,picture,title,type,size,description) VALUES ('$id_user','$file','$title','$type','$size','$describe')";
                if(mysqli_query($connect, $query))  
                {  
                     $ok=1; 
@@ -85,51 +84,128 @@ if (isset($_SESSION['email'])){
                </div> -->
           </header>
           <div class="gallery">
-               <?php  
-               //Afisare Imaginii
-               $query = "SELECT * FROM Pictures ORDER BY id_picture DESC";  
-               $result = mysqli_query($connect, $query);  
-               while($row = mysqli_fetch_array($result))  
-               {  
-                    echo '  
-                         <div class="image">
-                              <img src="data:image/jpeg;base64,'.base64_encode($row['picture'] ).'" alt="">
-                              <h3>About this photo:</h3>
-                              <p>Descriere imagine</p>
-                              <label class="image-menu">';
-                              ?>
-                              <a href="delete.php?id=<?php echo $row["id_picture"]; ?>">Delete</a> <?php
-                                   echo ' <button>Edit</button>
-                                   <button>Save</button>
-                              </label>
-                         </div>
-                    ';
-               }
-               ?>  
+
+               <?php
+                    if(isset($_POST['select'])){
+                         $selected_val = $_POST['Filter'];  // Storing Selected Value In Variable
+                         //echo "You have selected :" .$selected_val;  // Displaying Selected Value
+
+                         if($selected_val=="Default"){
+                              
+                              //Afisare Imaginii
+                              $query = "SELECT * FROM pictures ORDER BY id_picture DESC";  
+                              $result = mysqli_query($connect, $query);  
+                              while($row = mysqli_fetch_array($result))  
+                              {  
+                                   echo '  
+                                        <div class="image">
+                                             <img src="data:image/jpeg;base64,'.base64_encode($row['picture'] ).'" alt="">
+                                             <h3>About this photo:</h3>
+                                             <p>'.$row['description'].'</p>
+                                             <label class="image-menu">';
+                                             ?>
+                                             <a href="delete.php?id=<?php echo $row["id_picture"]; ?>">Delete</a>
+                                             <a href="download.php?id=<?php echo $row["id_picture"]; ?>">Download</a> <?php
+                                                  echo ' <button>Edit</button>
+                                             </label>
+                                        </div>
+                                   ';
+                              }
+                         }
+                         if($selected_val=="jpg"){
+                              //Afisare Imaginii
+                              $query = "SELECT * FROM pictures where type like '%jpeg%' ORDER BY id_picture DESC";  
+                              $result = mysqli_query($connect, $query);  
+                              while($row = mysqli_fetch_array($result))  
+                              {  
+                                   echo '  
+                                        <div class="image">
+                                             <img src="data:image/jpeg;base64,'.base64_encode($row['picture'] ).'" alt="">
+                                             <h3>About this photo:</h3>
+                                             <p>'.$row['description'].'</p>
+                                             <label class="image-menu">';
+                                             ?>
+                                             <a href="delete.php?id=<?php echo $row["id_picture"]; ?>">Delete</a>
+                                             <a href="download.php?id=<?php echo $row["id_picture"]; ?>">Download</a> <?php
+                                                  echo ' <button>Edit</button>
+                                             </label>
+                                        </div>
+                                   ';
+                              }
+                         }
+                         if($selected_val=="png"){
+                              //Afisare Imaginii
+                              $query = "SELECT * FROM pictures where type like '%png%' ORDER BY id_picture DESC";  
+                              $result = mysqli_query($connect, $query);  
+                              while($row = mysqli_fetch_array($result))  
+                              {  
+                                   echo '  
+                                        <div class="image">
+                                             <img src="data:image/jpeg;base64,'.base64_encode($row['picture'] ).'" alt="">
+                                             <h3>About this photo:</h3>
+                                             <p>'.$row['description'].'</p>
+                                             <label class="image-menu">';
+                                             ?>
+                                             <a href="delete.php?id=<?php echo $row["id_picture"]; ?>">Delete</a>
+                                             <a href="download.php?id=<?php echo $row["id_picture"]; ?>">Download</a> <?php
+                                                  echo ' <button>Edit</button>
+                                             </label>
+                                        </div>
+                                   ';
+                              }
+                         }
+                         if($selected_val=="gif"){
+                              //Afisare Imaginii
+                              $query = "SELECT * FROM pictures where type like '%gif%' ORDER BY id_picture DESC";  
+                              $result = mysqli_query($connect, $query);  
+                              while($row = mysqli_fetch_array($result))  
+                              {  
+                                   echo '  
+                                        <div class="image">
+                                             <img src="data:image/jpeg;base64,'.base64_encode($row['picture'] ).'" alt="">
+                                             <h3>About this photo:</h3>
+                                             <p>'.$row['description'].'</p>
+                                             <label class="image-menu">';
+                                             ?>
+                                             <a href="delete.php?id=<?php echo $row["id_picture"]; ?>">Delete</a>
+                                             <a href="download.php?id=<?php echo $row["id_picture"]; ?>">Download</a> <?php
+                                                  echo ' <button>Edit</button>
+                                             </label>
+                                        </div>
+                                   ';
+                              }
+
+                         }
+
+
+                    }
+                    else{
+                         //Afisare Imaginii
+                         $query = "SELECT * FROM pictures ORDER BY id_picture DESC";  
+                         $result = mysqli_query($connect, $query);  
+                         while($row = mysqli_fetch_array($result))  
+                         {  
+                              echo '  
+                                   <div class="image">
+                                        <img src="data:image/jpeg;base64,'.base64_encode($row['picture'] ).'" alt="">
+                                        <h3>About this photo:</h3>
+                                        <p>'.$row['description'].'</p>
+                                        <label class="image-menu">';
+                                        ?>
+                                        <a href="delete.php?id=<?php echo $row["id_picture"]; ?>">Delete</a>
+                                        <a href="download.php?id=<?php echo $row["id_picture"]; ?>">Download</a> <?php
+                                             echo ' <button>Edit</button>
+                                        </label>
+                                   </div>
+                              ';
+                         }
+
+                    }
+               ?>
+
+               
           </div>
           <script src="scripts/handleSession.js"></script>
       </body>  
 
- </html>  
- <!-- <script>  
- $(document).ready(function(){  
-      $('#insert').click(function(){  
-           var image_name = $('#image').val();  
-           if(image_name === '')  
-           {  
-                alert("Please Select Image");  
-                return false;  
-           }  
-           else  
-           {  
-                var extension = $('#image').val().split('.').pop().toLowerCase();  
-                if(jQuery.inArray(extension, ['gif','png','jpg','jpeg']) == -1)  
-                {  
-                     alert('Invalid Image File');  
-                     $('#image').val('');  
-                     return false;  
-                }  
-           }  
-      });  
- });  
- </script>   -->
+</html>
