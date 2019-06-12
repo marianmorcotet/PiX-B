@@ -93,6 +93,7 @@ checkSession();
                          <option value="Default">Nothing</option>
                          <option value="jpg">Jpg picture's</option>
                          <option value="png">Png picture's</option>
+                         <option value="gif">Gif picture's</option>
                     </select>
                     <input type="submit" name="select" value="Get Selected Values" />
                </form>
@@ -108,8 +109,8 @@ checkSession();
                          $selected_val = $_POST['Filter'];  // Storing Selected Value In Variable
                          //echo "You have selected :" .$selected_val;  // Displaying Selected Value
 
-                         switch($selected_val){
-                              case "Default":
+                         if($selected_val=="Default"){
+                              
                               //Afisare Imaginii
                               $query = "SELECT * FROM pictures ORDER BY id_picture DESC";  
                               $result = mysqli_query($connect, $query);  
@@ -129,7 +130,8 @@ checkSession();
                                         </div>
                                    ';
                               }
-                              case "jpg":
+                         }
+                         if($selected_val=="jpg"){
                               //Afisare Imaginii
                               $query = "SELECT * FROM pictures where type like '%jpeg%' ORDER BY id_picture DESC";  
                               $result = mysqli_query($connect, $query);  
@@ -149,9 +151,31 @@ checkSession();
                                         </div>
                                    ';
                               }
-                              case "png":
+                         }
+                         if($selected_val=="png"){
                               //Afisare Imaginii
                               $query = "SELECT * FROM pictures where type like '%png%' ORDER BY id_picture DESC";  
+                              $result = mysqli_query($connect, $query);  
+                              while($row = mysqli_fetch_array($result))  
+                              {  
+                                   echo '  
+                                        <div class="image">
+                                             <img src="data:image/jpeg;base64,'.base64_encode($row['picture'] ).'" alt="">
+                                             <h3>About this photo:</h3>
+                                             <p>'.$row['description'].'</p>
+                                             <label class="image-menu">';
+                                             ?>
+                                             <a href="delete.php?id=<?php echo $row["id_picture"]; ?>">Delete</a>
+                                             <a href="download.php?id=<?php echo $row["id_picture"]; ?>">Download</a> <?php
+                                                  echo ' <button>Edit</button>
+                                             </label>
+                                        </div>
+                                   ';
+                              }
+                         }
+                         if($selected_val=="gif"){
+                              //Afisare Imaginii
+                              $query = "SELECT * FROM pictures where type like '%gif%' ORDER BY id_picture DESC";  
                               $result = mysqli_query($connect, $query);  
                               while($row = mysqli_fetch_array($result))  
                               {  
