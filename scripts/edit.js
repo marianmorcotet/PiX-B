@@ -15,10 +15,7 @@ function applyFilter(){
     
 };
 
-
-
-
-
+var bottomMenu = document.getElementById("bottomMenu");
 
 context.drawImage(image, 0, 0);
 
@@ -28,4 +25,4 @@ link.addEventListener('click', function(ev) {
     link.href = canvas.toDataURL();
     link.download = "mypainting.png";
 }, false);
-document.body.appendChild(link);
+bottomMenu.appendChild(link);

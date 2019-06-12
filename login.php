@@ -28,7 +28,6 @@
 
             if(password_verify($password, getUserPassword($userId))){
                 startPersistentSession();
-                print_r("parola corecta");
                 header("Location: http://localhost/pixB/PiX-B/Gallery.php");
             }else{
                 print_r("parola gresita");

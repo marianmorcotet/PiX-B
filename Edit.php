@@ -17,19 +17,38 @@
 
         <canvas id="editedCanvas">
             <?php
-            $conn = mysqli_connect("localhost", "root", "", "pixData");
+            session_start();
+            $pictureId = $_GET['id'];
+            $connect = mysqli_connect("localhost", "root", "", "pixData");
 
-            $stmt = $conn->prepare("SELECT picture from Pictures WHERE id_picture = ?");
+            $query = "SELECT * FROM pictures WHERE id_picture=$pictureId";  
+            $result = mysqli_query($connect, $query);  
+            while($row = mysqli_fetch_array($result))  
+            {  
+                echo '<img id="editedImage" src="data:image/jpeg;base64,'.base64_encode($row['picture'] ).'" alt="">';
+            }
             
-            echo '<img src="data:image/jpeg;base64,'.base64_encode($picture).'" alt="">';
+            mysqli_close($connect);
+            // $conn = mysqli_connect("localhost", "root", "", "pixData");
+
+            // $stmt = $conn->prepare("SELECT picture from Pictures WHERE id_picture = ?");
+            // $stmt->bind_param("i", $pictureId);
+            // $stmt->execute();
+
+            // $stmt->bind_result($picture);
+            // $stmt->fetch();
+
+            // $stmt->close();
+            // mysqli_close($conn);
+            // echo '<img id="editedImage" src="data:image/jpeg;base64,'.base64_encode($picture).'" alt="">';
             ?>
         </canvas>
 
         <div id="bottomMenu">
-                <form action="updatePhoto.php">
-                    <input type="text" placeholder="write new title">
-                    <input type="text" placeholder="write new description">
-                    <input type="text" placeholder="tag1,tag2,tag3..">
+                <form method="post" name="updateDatabase" action="updatePhoto.php?id=<?php echo $_GET['id']?>">
+                    <input type="text" name="newTitle" placeholder="write new title">
+                    <input type="text" name="newDescription" placeholder="write new description">
+                    <input type="text" name="newTags" placeholder="tag1,tag2,tag3..">
                     <button type="submit">Save changes</button>
                 </form>
             </div>
@@ -64,4 +83,3 @@
     <script src="scripts/edit.js"></script>
     <!-- <script src="scripts"></script> -->
 </body>
-</html>

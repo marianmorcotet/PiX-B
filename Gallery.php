@@ -1,7 +1,11 @@
 <?php  
 //Upload database
  $connect = mysqli_connect("localhost", "root", "", "pixData"); 
-  
+ session_start();
+ if(!isset($_SESSION['userName'])){
+     header("Location: index.php");
+ }
+
  if(isset($_POST["insert"]))  
  {  
      
@@ -25,7 +29,7 @@
                $type=$file_array[$i]['type'];
                //$ext = pathinfo($title, PATHINFO_EXTENSION);
                $size= $file_array[$i]['size'];
-               $id_user=1;
+               $id_user=$_SESSION['userId'];
                $query = "INSERT INTO pictures(id_user_owner,picture,title,type,size,description) VALUES ('$id_user','$file','$title','$type','$size','$describe')";
                if(mysqli_query($connect, $query))  
                {  
@@ -105,8 +109,9 @@
                                              <label class="image-menu">';
                                              ?>
                                              <a href="delete.php?id=<?php echo $row["id_picture"]; ?>">Delete</a>
-                                             <a href="download.php?id=<?php echo $row["id_picture"]; ?>">Download</a> <?php
-                                                  echo ' <button>Edit</button>
+                                             <a href="download.php?id=<?php echo $row["id_picture"]; ?>">Download</a>
+                                             <a href="Edit.php?id=<?php echo $row["id_picture"]; ?>">Edit</a> <?php
+                                                  echo '
                                              </label>
                                         </div>
                                    ';
@@ -126,8 +131,9 @@
                                              <label class="image-menu">';
                                              ?>
                                              <a href="delete.php?id=<?php echo $row["id_picture"]; ?>">Delete</a>
-                                             <a href="download.php?id=<?php echo $row["id_picture"]; ?>">Download</a> <?php
-                                                  echo ' <button>Edit</button>
+                                             <a href="download.php?id=<?php echo $row["id_picture"]; ?>">Download</a>
+                                             <a href="Edit.php?id=<?php echo $row["id_picture"]; ?>">Edit</a> <?php
+                                                  echo '
                                              </label>
                                         </div>
                                    ';
@@ -147,8 +153,9 @@
                                              <label class="image-menu">';
                                              ?>
                                              <a href="delete.php?id=<?php echo $row["id_picture"]; ?>">Delete</a>
-                                             <a href="download.php?id=<?php echo $row["id_picture"]; ?>">Download</a> <?php
-                                                  echo ' <button>Edit</button>
+                                             <a href="download.php?id=<?php echo $row["id_picture"]; ?>">Download</a>
+                                             <a href="Edit.php?id=<?php echo $row["id_picture"]; ?>">Edit</a> <?php
+                                                  echo '
                                              </label>
                                         </div>
                                    ';
@@ -193,8 +200,9 @@
                                         <label class="image-menu">';
                                         ?>
                                         <a href="delete.php?id=<?php echo $row["id_picture"]; ?>">Delete</a>
-                                        <a href="download.php?id=<?php echo $row["id_picture"]; ?>">Download</a> <?php
-                                             echo ' <button>Edit</button>
+                                        <a href="download.php?id=<?php echo $row["id_picture"]; ?>">Download</a>
+                                        <a href="Edit.php?id=<?php echo $row["id_picture"]; ?>">Edit</a> <?php
+                                             echo '
                                         </label>
                                    </div>
                               ';
