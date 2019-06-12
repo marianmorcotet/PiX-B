@@ -2,7 +2,6 @@
 <html lang="en">
 <head>
     <link rel="stylesheet" type="text/css" media="screen" href="styles/edit.css">
-    <link rel="stylesheet" type="text/css" media="screen" href="styles/loginStyles.css">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
@@ -15,7 +14,7 @@
                 <!-- <h1 id="imageTitle">image title</h1> -->
         </header>
 
-        <canvas id="editedCanvas" height="500" width="700">
+        <canvas id="editedCanvas">
             <?php
             session_start();
             $pictureId = $_GET['id'];
@@ -29,18 +28,6 @@
             }
             
             mysqli_close($connect);
-            // $conn = mysqli_connect("localhost", "root", "", "pixData");
-
-            // $stmt = $conn->prepare("SELECT picture from Pictures WHERE id_picture = ?");
-            // $stmt->bind_param("i", $pictureId);
-            // $stmt->execute();
-
-            // $stmt->bind_result($picture);
-            // $stmt->fetch();
-
-            // $stmt->close();
-            // mysqli_close($conn);
-            // echo '<img id="editedImage" src="data:image/jpeg;base64,'.base64_encode($picture).'" alt="">';
             ?>
         </canvas>
 
@@ -55,9 +42,6 @@
     </div>
 
     <div id="rightMenu">
-        <!-- <input type="text" placeholder="write new title">
-        <input type="text" name="" placeholder="write new description">
-        <hr> -->
         <label for="">Blur</label>
         <input type="range" min="0" max="100" value="0" step="1" onchange="applyFilter()" data-filter="blur" data-scale="px"><br>
         <label for="">Brightness</label>

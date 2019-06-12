@@ -88,3 +88,11 @@ hr{
     max-width: 800px;
     max-height: 800px;
 }
+
+
+@media screen and (min-width: 980px) {
+    #editedCanvas{
+        height: 300px;
+        width: 400px;
+    }
+}

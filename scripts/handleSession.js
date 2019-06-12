@@ -30,6 +30,6 @@ function updateInfo(username){
 }
 
 
-var username = requestUserNameFromServer(updateInfo);
+requestUserNameFromServer(updateInfo);
 var userid = getSessionUserId();
 

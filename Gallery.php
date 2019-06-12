@@ -1,8 +1,9 @@
 <?php  
 //Upload database
+include("sharedFunctions.php");
  $connect = mysqli_connect("localhost", "root", "", "pixData"); 
  session_start();
- if(!isset($_SESSION['userName'])){
+ if(!checkSession()){
      header("Location: index.php");
  }
 
@@ -66,7 +67,7 @@
      </head>
      <body>  
           <header>
-		     <h1 id="galleryTitle">Your images</h1>
+		     <h1 id="galleryTitle"></h1>
                <form method="post" enctype="multipart/form-data">
                     <input type="file" name="image[]" id="image" multiple="" />
                     <br />

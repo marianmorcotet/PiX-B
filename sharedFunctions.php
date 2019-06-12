@@ -7,15 +7,10 @@
     }
 
     function checkSession(){
-        session_start();
-        
         $userId = checkExistingSession();
         $username = getUserName($userId);
         $_SESSION['userId'] = $userId;
         $_SESSION['userName'] = $username;
-        if(!$userId){
-            // Header("Location: http://localhost/pixB/PiX-B/");
-        }
         return $userId;
     }
 
@@ -63,7 +58,7 @@
 
         $dateTime = time() + $lifetime;
         
-        setcookie(session_name(), session_id(), $dateTime);
+        // setcookie(session_name(), session_id(), $dateTime);
 
         $_SESSION['userId'] = getUserId($_SESSION['email']);
 
