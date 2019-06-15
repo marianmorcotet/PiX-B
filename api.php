@@ -1,5 +1,5 @@
 <?php
-
+session_start();
 function response($val){
 	$response[$_GET['x']] = $val;
 	
