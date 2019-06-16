@@ -61,6 +61,19 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 
         }
 
+        if(isset($_POST['newImage'])){
+            $pos = strpos($_POST['newImage'], 'base64,');
+            if($pos != 0){
+                $blobData= base64_decode(substr($_POST['newImage'], $pos + 7));
+
+                $stmt = $conn->prepare("UPDATE Pictures SET picture = ? WHERE id_picture = ?");
+                $stmt->bind_param("si", $blobData, $imageId);
+                $stmt->execute();
+    
+                $stmt->close();
+            }
+        }
+
         mysqli_close($conn);
 
     }

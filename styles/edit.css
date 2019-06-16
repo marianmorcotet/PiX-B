@@ -67,6 +67,10 @@ hr{
     border-style: dotted;
 }
 
+#hiddenInput{
+    display: none;
+}
+
 #rightMenu{
     float: right;
     max-width: 350px;
@@ -87,12 +91,4 @@ hr{
     border-style: solid;
     max-width: 800px;
     max-height: 800px;
-}
-
-
-@media screen and (min-width: 980px) {
-    #editedCanvas{
-        height: 300px;
-        width: 400px;
-    }
 }

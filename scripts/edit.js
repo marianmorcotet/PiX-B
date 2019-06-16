@@ -3,6 +3,14 @@ var image = document.getElementById("editedImage");
 var context = canvas.getContext('2d');
 var filterControls = document.querySelectorAll("input[type=range]");
 
+function scaleToFit(img){
+    // get the scale
+    var scale = Math.min(canvas.width / img.width, canvas.height / img.height);
+    // get the top left position of the image
+    var x = (canvas.width / 2) - (img.width / 2) * scale;
+    var y = (canvas.height / 2) - (img.height / 2) * scale;
+    context.drawImage(img, x, y, img.width * scale, img.height * scale);
+}
 
 function applyFilter(){
     var computedFilters = '';
@@ -11,35 +19,11 @@ function applyFilter(){
     });
     context.clearRect(0,0,canvas.width,canvas.height);
     context.filter = computedFilters;
-    console.log(image.width);
-    context.drawImage(image, 0, 0, image.width, image.height);
+
+    scaleToFit(image);
+
+    hiddenInput.value = canvas.toDataURL("image/png");
 };
-
-
-function loadImage(){
-    window.innerWidth
-    
-    var canvas = document.getElementById("editedCanvas");
-    var image = document.getElementById("editedImage");
-    var width = image.width;
-    var height = image.height;
-    var maxWidth = canvas.width;
-    var maxHeight = canvas.height;
-
-    var ratio = maxWidth / width;
-    if(height * ratio > maxHeight) {
-        ratio = maxHeight / height;
-    }
-    image.width = width * ratio;
-    image.height = height * ratio;
-
-    console.log(image.width);
-
-    context.drawImage(image, 0, 0, image.width, image.height);
-}
-
-
-
 
 function addDownloadLink(){
     var link = document.createElement('a');
@@ -53,4 +37,4 @@ bottomMenu.appendChild(link);
 }
 
 addDownloadLink();
-loadImage();
+scaleToFit(image);

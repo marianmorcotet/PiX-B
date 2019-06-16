@@ -14,7 +14,7 @@
                 <!-- <h1 id="imageTitle">image title</h1> -->
         </header>
 
-        <canvas id="editedCanvas">
+        <canvas id="editedCanvas" height="400" width="600">
             <?php
             session_start();
             $pictureId = $_GET['id'];
@@ -36,6 +36,7 @@
                     <input type="text" name="newTitle" placeholder="write new title">
                     <input type="text" name="newDescription" placeholder="write new description">
                     <input type="text" name="newTags" placeholder="tag1,tag2,tag3..">
+                    <input id="hiddenInput" type="text" name="newImage">
                     <button type="submit">Save changes</button>
                 </form>
             </div>
@@ -62,7 +63,6 @@
         <input type="range" min="0" max="100" value="0" step="1" onchange="applyFilter()" data-filter="sepia" data-scale="%"><br>
 
     </div>
-
     
     <script src="scripts/edit.js"></script>
     <!-- <script src="scripts"></script> -->

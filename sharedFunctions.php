@@ -57,10 +57,9 @@
         $lifetime = 60 * 60 * 2;
 
         $dateTime = time() + $lifetime;
-        
-        // setcookie(session_name(), session_id(), $dateTime);
 
         $_SESSION['userId'] = getUserId($_SESSION['email']);
+        $_SESSION['userName'] = getUserName($_SESSION['userId']);
 
         savePersistentSession(session_id(), $_SESSION["userId"], $dateTime);
 
