@@ -1,12 +1,12 @@
 <?php  
 //Upload database
 include("sharedFunctions.php");
- $connect = mysqli_connect("localhost", "root", "", "pixData"); 
- session_start();
- if(!checkSession()){
-     header("Location: index.php");
- }
+session_start();
+if(!isset($_SESSION['userId'])){
+    header("Location: index.php");
+}
 
+ $connect = mysqli_connect("localhost", "root", "", "pixData"); 
  if(isset($_POST["insert"]))  
  {  
      

@@ -28,10 +28,10 @@
 
             if(password_verify($password, getUserPassword($userId))){
                 startPersistentSession();
-                header("Location: http://localhost/pixB/PiX-B/Gallery.php");
+                header("Location: Gallery.php");
             }else{
                 print_r("parola gresita");
-                header("Location: http://localhost/pixB/PiX-B/");
+                header("Location: index.php");
             }
         }
     }
