@@ -31,7 +31,8 @@ if(!isset($_SESSION['userId'])){
                //$ext = pathinfo($title, PATHINFO_EXTENSION);
                $size= $file_array[$i]['size'];
                $id_user=$_SESSION['userId'];
-               $query = "INSERT INTO pictures(id_user_owner,picture,title,type,size,description) VALUES ('$id_user','$file','$title','$type','$size','$describe')";
+               $date=date("Y-m-d");
+               $query = "INSERT INTO pictures(id_user_owner,picture,title,type,size,description,date) VALUES ('$id_user','$file','$title','$type','$size','$describe','$date')";
                if(mysqli_query($connect, $query))  
                {  
                     $ok=1; 
