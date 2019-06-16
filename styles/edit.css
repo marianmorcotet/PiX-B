@@ -17,11 +17,7 @@ body image{
 
 .image{
     text-align: center;
-}
-img {
     margin-top: 5px;
-    width: 100%;
-    height: auto%;
 }
 
 input,select {
@@ -64,4 +60,39 @@ input,select {
     text-align: center;
     border: none;
     border-radius: 4px;
+}
+
+hr{
+    border:white;
+    border-style: dotted;
+}
+
+#rightMenu{
+    float: right;
+    max-width: 350px;
+}
+
+#imageTitle{
+    text-align: center;
+}
+
+#mainImage {
+    float: left;
+    width: 800px;
+    height: auto;
+}
+
+#mainImage img{
+    border: white;
+    border-style: solid;
+    max-width: 800px;
+    max-height: 800px;
+}
+
+
+@media screen and (min-width: 980px) {
+    #editedCanvas{
+        height: 300px;
+        width: 400px;
+    }
 }

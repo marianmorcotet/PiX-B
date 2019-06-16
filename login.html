@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="styles/loginStyles.css">
+
+    <title>Login</title>
+  </head>
+  <body>
+    <div class="login-page">
+      <div class="form">
+        <form name="register" action ="register.php" method="post" id="register-form" class="register-form inactive">
+          <input type="text" placeholder="username" name="username"/>
+          <input type="text" placeholder="email address" name="email"/>
+          <input type="password" placeholder="password" name="password"/>
+          <button type="submit">create</button>
+          <p class="message">Already registered? <a href="#" onclick = "displayLogin();">Sign In</a></p>
+        </form>
+        <form name="login" action ="login.php" method="post" id="login-form" class="login-form">
+          <input name="email" type="text" placeholder="username/email"/>
+          <input name="password" type="password" placeholder="password"/>
+          <button type="submit">login</button>
+          <p class="message">Not registered? <a href="#" onclick = "displayRegister();">Create an account</a></p>
+        </form>
+      </div>
+    </div>
+    <script src = "scripts/login.js"></script>
+  </body>
+</html>
