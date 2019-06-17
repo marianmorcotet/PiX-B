@@ -1,17 +1,12 @@
 <?php  
-
-include("sharedFunctions.php");
-checkSession();
-// if ( != 0){
-//      startPersistentSession();
-// }
-// }else{
-//      // Header("Location: http://localhost/pixB/PiX-B/");
-// }
-
 //Upload database
+include("sharedFunctions.php");
+session_start();
+if(!isset($_SESSION['userId'])){
+    header("Location: index.php");
+}
+
  $connect = mysqli_connect("localhost", "root", "", "pixData"); 
-  
  if(isset($_POST["insert"]))  
  {  
      
@@ -35,22 +30,17 @@ checkSession();
                $type=$file_array[$i]['type'];
                //$ext = pathinfo($title, PATHINFO_EXTENSION);
                $size= $file_array[$i]['size'];
-               $id_user=1;
-               $query = "INSERT INTO pictures(id_user_owner,picture,title,type,size,description) VALUES ('$id_user','$file','$title','$type','$size','$describe')";
+               $id_user=$_SESSION['userId'];
+               $date=date("Y-m-d");
+               $query = "INSERT INTO pictures(id_user_owner,picture,title,type,size,description,date) VALUES ('$id_user','$file','$title','$type','$size','$describe','$date')";
                if(mysqli_query($connect, $query))  
                {  
                     $ok=1; 
                }
-               else{
-                    $ok=0;
-               }
           }
           if($ok!=0){
                echo '<script>alert("Image Inserted into Database")</script>';
-          }
-          else{
-               echo "Nu s-a inserat!";
-          }
+          }  
      }
      
  }
@@ -76,18 +66,20 @@ checkSession();
           <meta http-equiv="X-UA-Compatible" content="ie=edge">
           <title>Gallery</title>
      </head>
-     <body> 
+     <body>  
           <header>
-		     <h1>Your images</h1>
+		     <h1 id="galleryTitle"></h1>
                <form method="post" enctype="multipart/form-data">
                     <input type="file" name="image[]" id="image" multiple="" />
                     <br />
-                    <input id="describe" type="text" name="describe" placeholder="Describe" />
+                    <input id="Describe" type="text" name="Describe" placeholder="Describe" />
                     <br />
                     <input type="submit" name="insert" id="insert" value="Insert" class="btn btn-info" />
                </form>
-          
-		     <form  method="post">
+
+               <a href=" logout.php">Logout</a>
+
+               <form  method="post">
                     <p>Filter by:</p>
                     <select name="Filter">
                          <option value="Default">Nothing</option>
@@ -95,8 +87,9 @@ checkSession();
                          <option value="png">Png picture's</option>
                          <option value="gif">Gif picture's</option>
                     </select>
-                    <input type="submit" name="select" value="Get Selected Values" />
+                    <input type="submit" name="select" value="Apply" />
                </form>
+
                <!-- <div class="filter">
                <button type="filter-by">Filter by</button>
                <input type="text" placeholder="date/tag">
@@ -124,8 +117,9 @@ checkSession();
                                              <label class="image-menu">';
                                              ?>
                                              <a href="delete.php?id=<?php echo $row["id_picture"]; ?>">Delete</a>
-                                             <a href="download.php?id=<?php echo $row["id_picture"]; ?>">Download</a> <?php
-                                                  echo ' <button>Edit</button>
+                                             <a href="download.php?id=<?php echo $row["id_picture"]; ?>">Download</a>
+                                             <a href="Edit.php?id=<?php echo $row["id_picture"]; ?>">Edit</a> <?php
+                                                  echo '
                                              </label>
                                         </div>
                                    ';
@@ -145,8 +139,9 @@ checkSession();
                                              <label class="image-menu">';
                                              ?>
                                              <a href="delete.php?id=<?php echo $row["id_picture"]; ?>">Delete</a>
-                                             <a href="download.php?id=<?php echo $row["id_picture"]; ?>">Download</a> <?php
-                                                  echo ' <button>Edit</button>
+                                             <a href="download.php?id=<?php echo $row["id_picture"]; ?>">Download</a>
+                                             <a href="Edit.php?id=<?php echo $row["id_picture"]; ?>">Edit</a> <?php
+                                                  echo '
                                              </label>
                                         </div>
                                    ';
@@ -166,8 +161,9 @@ checkSession();
                                              <label class="image-menu">';
                                              ?>
                                              <a href="delete.php?id=<?php echo $row["id_picture"]; ?>">Delete</a>
-                                             <a href="download.php?id=<?php echo $row["id_picture"]; ?>">Download</a> <?php
-                                                  echo ' <button>Edit</button>
+                                             <a href="download.php?id=<?php echo $row["id_picture"]; ?>">Download</a>
+                                             <a href="Edit.php?id=<?php echo $row["id_picture"]; ?>">Edit</a> <?php
+                                                  echo '
                                              </label>
                                         </div>
                                    ';
@@ -200,20 +196,32 @@ checkSession();
                     }
                     else{
                          //Afisare Imaginii
-                         $query = "SELECT * FROM pictures ORDER BY id_picture DESC";  
+
+                         
+                         $id_user=$_SESSION['userId'];
+                         $query = "SELECT * FROM pictures WHERE id_user_owner=$id_user ORDER BY id_picture DESC";  
                          $result = mysqli_query($connect, $query);  
                          while($row = mysqli_fetch_array($result))  
-                         {  
+                         {    
+                              $idPicture = $row['id_picture'];
+                              $queryy = "SELECT tag_name FROM Tags natural join TagRelations WHERE id_picture = $idPicture";
+                              $resultt = mysqli_query($connect, $queryy);
+                              $tagList = "";
+                              while($roww = mysqli_fetch_array($resultt)){
+                                   $tagList = $tagList.$roww['tag_name'].',';
+                              }
                               echo '  
                                    <div class="image">
                                         <img src="data:image/jpeg;base64,'.base64_encode($row['picture'] ).'" alt="">
                                         <h3>About this photo:</h3>
                                         <p>'.$row['description'].'</p>
+                                        <p>'.$tagList.'</p>
                                         <label class="image-menu">';
                                         ?>
                                         <a href="delete.php?id=<?php echo $row["id_picture"]; ?>">Delete</a>
-                                        <a href="download.php?id=<?php echo $row["id_picture"]; ?>">Download</a> <?php
-                                             echo ' <button>Edit</button>
+                                        <a href="download.php?id=<?php echo $row["id_picture"]; ?>">Download</a>
+                                        <a href="Edit.php?id=<?php echo $row["id_picture"]; ?>">Edit</a> <?php
+                                             echo '
                                         </label>
                                    </div>
                               ';
@@ -224,6 +232,7 @@ checkSession();
 
                
           </div>
-     </body>  
+          <script src="scripts/handleSession.js"></script>
+      </body>  
 
 </html>
