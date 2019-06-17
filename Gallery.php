@@ -93,7 +93,7 @@ if(!isset($_SESSION['userId'])){
                <!-- <div class="filter">
                <button type="filter-by">Filter by</button>
                <input type="text" placeholder="date/tag">
-               </div> -->
+               </div> -->9
           </header>
           <div class="gallery">
 
