@@ -11,7 +11,7 @@ CREATE TABLE Pictures (
   title varchar(50),
   description varchar(255),
   picture longblob,
-  date datetime,
+  date date,
   PRIMARY KEY (id_picture)
 );
 
