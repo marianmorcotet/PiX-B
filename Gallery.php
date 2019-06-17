@@ -81,6 +81,8 @@ if(!isset($_SESSION['userId'])){
 
                <form  method="post">
                     <p>Filter by:</p>
+                    <input type="text" name="tag" placeholder="Example: #nameTag" />
+                    <br />
                     <select name="Filter">
                          <option value="Default">Nothing</option>
                          <option value="jpg">Jpg picture's</option>
@@ -109,9 +111,10 @@ if(!isset($_SESSION['userId'])){
                          //echo "You have selected :" .$selected_val;  // Displaying Selected Value
                          $date = date('Y-m-d', strtotime($_POST['dateFrom']));
                          //print_r($date);
+                         $tag = $_POST['tag'];
 
 
-                         if($selected_val=="Default" and $date=="1970-01-01"){
+                         if($selected_val=="Default" and $date=="1970-01-01" and $tag==NULL){
                               $id_user=$_SESSION['userId'];
                               $query = "SELECT * FROM pictures WHERE id_user_owner=$id_user ORDER BY id_picture DESC";  
                               $result = mysqli_query($connect, $query);  
@@ -141,7 +144,7 @@ if(!isset($_SESSION['userId'])){
                                    ';
                               }    
                          }
-                         if($selected_val=="Default" and $date!="1970-01-01"){
+                         if($selected_val=="Default" and $date!="1970-01-01" and $tag==NULL){
                               $id_user=$_SESSION['userId'];
                               
                               $query = "SELECT * FROM pictures WHERE id_user_owner=$id_user and date='$date' ORDER BY id_picture DESC";  
@@ -172,7 +175,7 @@ if(!isset($_SESSION['userId'])){
                                    ';
                               }    
                          }
-                         if($selected_val!="Default" and $date=="1970-01-01"){
+                         if($selected_val!="Default" and $date=="1970-01-01" and $tag==NULL){
                               $id_user=$_SESSION['userId'];
                               
                               $query = "SELECT * FROM pictures WHERE id_user_owner=$id_user and lower(title) like '%$selected_val%' ORDER BY id_picture DESC";  
@@ -203,7 +206,7 @@ if(!isset($_SESSION['userId'])){
                                    ';
                               }    
                          }
-                         if($selected_val!="Default" and $date!="1970-01-01"){
+                         if($selected_val!="Default" and $date!="1970-01-01" and $tag==NULL){
                               $id_user=$_SESSION['userId'];
                               
                               $query = "SELECT * FROM pictures WHERE id_user_owner=$id_user and date='$date' and lower(title) like '%$selected_val%' ORDER BY id_picture DESC";  
@@ -234,6 +237,131 @@ if(!isset($_SESSION['userId'])){
                                    ';
                               }    
                          }
+                         if($selected_val=="Default" and $date=="1970-01-01" and $tag!=NULL){
+                              $id_user=$_SESSION['userId'];
+                              $query = "SELECT * FROM pictures NATURAL JOIN tagrelations
+                              NATURAL JOIN tags WHERE id_user_owner=$id_user and tag_name='$tag' ORDER BY id_picture DESC";  
+                              $result = mysqli_query($connect, $query);  
+                              while($row = mysqli_fetch_array($result))  
+                              {    
+                                   $idPicture = $row['id_picture'];
+                                   $queryy = "SELECT tag_name FROM Tags natural join TagRelations WHERE id_picture = $idPicture";
+                                   $resultt = mysqli_query($connect, $queryy);
+                                   $tagList = "";
+                                   while($roww = mysqli_fetch_array($resultt)){
+                                        $tagList = $tagList.$roww['tag_name'].',';
+                                   }
+                                   echo '  
+                                        <div class="image">
+                                             <img src="data:image/jpeg;base64,'.base64_encode($row['picture'] ).'" alt="">
+                                             <h3>About this photo:</h3>
+                                             <p>'.$row['description'].'</p>
+                                             <p>'.$tagList.'</p>
+                                             <label class="image-menu">';
+                                             ?>
+                                             <a href="delete.php?id=<?php echo $row["id_picture"]; ?>">Delete</a>
+                                             <a href="download.php?id=<?php echo $row["id_picture"]; ?>">Download</a>
+                                             <a href="Edit.php?id=<?php echo $row["id_picture"]; ?>">Edit</a> <?php
+                                                  echo '
+                                             </label>
+                                        </div>
+                                   ';
+                              }    
+                         }
+                         if($selected_val!="Default" and $date=="1970-01-01" and $tag!=NULL){
+                              $id_user=$_SESSION['userId'];
+                              $query = "SELECT * FROM pictures NATURAL JOIN tagrelations
+                              NATURAL JOIN tags WHERE id_user_owner=$id_user and tag_name='$tag' and lower(title) like '%$selected_val%' ORDER BY id_picture DESC";  
+                              $result = mysqli_query($connect, $query);  
+                              while($row = mysqli_fetch_array($result))  
+                              {    
+                                   $idPicture = $row['id_picture'];
+                                   $queryy = "SELECT tag_name FROM Tags natural join TagRelations WHERE id_picture = $idPicture";
+                                   $resultt = mysqli_query($connect, $queryy);
+                                   $tagList = "";
+                                   while($roww = mysqli_fetch_array($resultt)){
+                                        $tagList = $tagList.$roww['tag_name'].',';
+                                   }
+                                   echo '  
+                                        <div class="image">
+                                             <img src="data:image/jpeg;base64,'.base64_encode($row['picture'] ).'" alt="">
+                                             <h3>About this photo:</h3>
+                                             <p>'.$row['description'].'</p>
+                                             <p>'.$tagList.'</p>
+                                             <label class="image-menu">';
+                                             ?>
+                                             <a href="delete.php?id=<?php echo $row["id_picture"]; ?>">Delete</a>
+                                             <a href="download.php?id=<?php echo $row["id_picture"]; ?>">Download</a>
+                                             <a href="Edit.php?id=<?php echo $row["id_picture"]; ?>">Edit</a> <?php
+                                                  echo '
+                                             </label>
+                                        </div>
+                                   ';
+                              }    
+                         }
+                         if($selected_val=="Default" and $date!="1970-01-01" and $tag!=NULL){
+                              $id_user=$_SESSION['userId'];
+                              $query = "SELECT * FROM pictures NATURAL JOIN tagrelations
+                              NATURAL JOIN tags WHERE id_user_owner=$id_user and tag_name='$tag' and date='$date' ORDER BY id_picture DESC";  
+                              $result = mysqli_query($connect, $query);  
+                              while($row = mysqli_fetch_array($result))  
+                              {    
+                                   $idPicture = $row['id_picture'];
+                                   $queryy = "SELECT tag_name FROM Tags natural join TagRelations WHERE id_picture = $idPicture";
+                                   $resultt = mysqli_query($connect, $queryy);
+                                   $tagList = "";
+                                   while($roww = mysqli_fetch_array($resultt)){
+                                        $tagList = $tagList.$roww['tag_name'].',';
+                                   }
+                                   echo '  
+                                        <div class="image">
+                                             <img src="data:image/jpeg;base64,'.base64_encode($row['picture'] ).'" alt="">
+                                             <h3>About this photo:</h3>
+                                             <p>'.$row['description'].'</p>
+                                             <p>'.$tagList.'</p>
+                                             <label class="image-menu">';
+                                             ?>
+                                             <a href="delete.php?id=<?php echo $row["id_picture"]; ?>">Delete</a>
+                                             <a href="download.php?id=<?php echo $row["id_picture"]; ?>">Download</a>
+                                             <a href="Edit.php?id=<?php echo $row["id_picture"]; ?>">Edit</a> <?php
+                                                  echo '
+                                             </label>
+                                        </div>
+                                   ';
+                              }    
+                         }
+                         if($selected_val!="Default" and $date!="1970-01-01" and $tag!=NULL){
+                              $id_user=$_SESSION['userId'];
+                              $query = "SELECT * FROM pictures NATURAL JOIN tagrelations
+                              NATURAL JOIN tags WHERE id_user_owner=$id_user and tag_name='$tag' and date='$date' and lower(title) like '%$selected_val%' ORDER BY id_picture DESC";  
+                              $result = mysqli_query($connect, $query);  
+                              while($row = mysqli_fetch_array($result))  
+                              {    
+                                   $idPicture = $row['id_picture'];
+                                   $queryy = "SELECT tag_name FROM Tags natural join TagRelations WHERE id_picture = $idPicture";
+                                   $resultt = mysqli_query($connect, $queryy);
+                                   $tagList = "";
+                                   while($roww = mysqli_fetch_array($resultt)){
+                                        $tagList = $tagList.$roww['tag_name'].',';
+                                   }
+                                   echo '  
+                                        <div class="image">
+                                             <img src="data:image/jpeg;base64,'.base64_encode($row['picture'] ).'" alt="">
+                                             <h3>About this photo:</h3>
+                                             <p>'.$row['description'].'</p>
+                                             <p>'.$tagList.'</p>
+                                             <label class="image-menu">';
+                                             ?>
+                                             <a href="delete.php?id=<?php echo $row["id_picture"]; ?>">Delete</a>
+                                             <a href="download.php?id=<?php echo $row["id_picture"]; ?>">Download</a>
+                                             <a href="Edit.php?id=<?php echo $row["id_picture"]; ?>">Edit</a> <?php
+                                                  echo '
+                                             </label>
+                                        </div>
+                                   ';
+                              }    
+                         }
+                         
                     }
                     else{
                          //Afisare Imaginii
