@@ -1,30 +1,31 @@
 var canvas = document.getElementById("editedCanvas");
 var image = document.getElementById("editedImage");
+
+canvas.width = image.width;
+canvas.height = image.height;
+
 var context = canvas.getContext('2d');
 var filterControls = document.querySelectorAll("input[type=range]");
 
-
 var newCanvas = document.createElement("canvas");
-var imageWidth = 0;
-var imageHeight = 0;
+
+newCanvas.width = canvas.width;
+newCanvas.height = canvas.height;
+
+var newContext = newCanvas.getContext('2d');
+
 
 function scaleToFit(img){
-    // get the scale
-    var scale = Math.min(canvas.width / img.width, canvas.height / img.height);
-    // get the top left position of the image
-    var x = (canvas.width / 2) - (img.width / 2) * scale;
-    var y = (canvas.height / 2) - (img.height / 2) * scale;
-    context.drawImage(img, x, y, img.width * scale, img.height * scale);
 
-    imageHeight = (img.height * scale) - y;
-    imageWidth = (img.width * scale) - x;
+    context.drawImage(img, 0, 0);
+}
 
-    newCanvas.width = imageWidth;
-    newCanvas.height = imageHeight;
-
-    var newContext = newCanvas.getContext('2d');
-
-    newContext.drawImage(canvas, x, y, img.width * scale, img.height * scale, 0, 0, newCanvas.width, newCanvas.height);
+function updateHiddenCanvas(newW, newH){
+    //draw image to hidden canvas for saving
+    newContext.clearRect(0, 0, newW, newH);
+    newContext.drawImage(canvas, 0, 0, newW, newH);
+    //put hidden canvas blob in hidden form input to be sent to back-end
+    hiddenInput.value = newCanvas.toDataURL("image/png");
 }
 
 function applyFilter(){
@@ -33,11 +34,12 @@ function applyFilter(){
         computedFilters += item.getAttribute('data-filter') + '(' + item.value + item.getAttribute('data-scale') + ') ';
     });
     context.clearRect(0,0,canvas.width,canvas.height);
+    //apply filter    
     context.filter = computedFilters;
-
-    scaleToFit(image);
-
-    hiddenInput.value = newCanvas.toDataURL("image/png");
+    //draw image to canvas
+    context.drawImage(image, 0, 0);
+    
+    updateHiddenCanvas();
 };
 
 function addDownloadLink(){
@@ -53,5 +55,5 @@ var bottomMenu = document.getElementById("bottomMenu");
 bottomMenu.appendChild(link);
 }
 
-addDownloadLink();
+// addDownloadLink();
 scaleToFit(image);

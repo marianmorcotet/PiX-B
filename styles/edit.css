@@ -14,81 +14,94 @@ body image{
     margin-right: 7%;
 }
 
-
-.image{
-    text-align: center;
-    margin-top: 5px;
-}
-
-input,select {
-    
-    width:100%;
-    padding: 5px 10px;
-    display: block;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-sizing: border-box; 
-}
-
-.size{
-    float: left;
-}
-
-.rotation{
-    width:100%;
-    text-align: center;
-    border: none;
-    border-radius: 4px;
-}
-.right{
-    float: right;
-}
-
-.center{
-    float: left;
-    margin-left: 33%;
-}
-
-.save{
-    width:100%;
-    text-align: center;
-    border: none;
-    border-radius: 4px;
-}
-.cancel{
-    width:100%;
-    text-align: center;
-    border: none;
-    border-radius: 4px;
-}
-
-hr{
-    border:white;
-    border-style: dotted;
-}
-
 #hiddenInput{
     display: none;
 }
 
-#rightMenu{
+#mainMenuCanvas{
+    grid-area: mainMenuCanvas;
+}
+
+#mainMenuRightTop{
+    grid-area: mainMenuRightTop;
+
+    max-width: 240px;
+}
+
+#mainMenuRightBottom{
+    grid-area: mainMenuRightBottom;
+
+    max-width: 240px;
+}
+
+#mainMenu{
+    display: grid;
+    grid-template-areas: 
+        'mainMenuCanvas mainMenuCanvas mainMenuCanvas mainMenuCanvas mainMenuRightTop'
+        'mainMenuCanvas mainMenuCanvas mainMenuCanvas mainMenuCanvas mainMenuRightBottom';
+
+    grid-gap: 20px;
+}
+
+form input{
+    width: 90%;
+}
+
+.option{
+    padding: 5px;
+    padding-right: 20px;
+}
+
+.option input{
     float: right;
-    max-width: 350px;
 }
 
-#imageTitle{
-    text-align: center;
+@media screen and (max-width:1060px) {
+    #mainMenu{
+        display: grid;
+        grid-template-areas: 
+            'mainMenuCanvas mainMenuCanvas mainMenuCanvas'
+            'mainMenuCanvas mainMenuCanvas mainMenuCanvas'
+            'mainMenuRightTop mainMenuRightBottom mainMenuRightBottom'
+            'mainMenuRightTop mainMenuRightBottom mainMenuRightBottom';
+    
+        grid-gap: 20px;
+    }
+    #mainMenuRightTop{
+        width: 240px;
+    }
+    
+    #mainMenuRightBottom{
+        float: left;
+        width: 360px;
+    }
+    #mainMenuRightBottom .option{
+        width: 350px;
+    }
 }
 
-#mainImage {
-    float: left;
-    width: 800px;
-    height: auto;
-}
+@media (max-width:790px) and (min-width:400px) {
+    #editedCanvas{
+        width: 400px;
+        height: 400px;
+    }
 
-#mainImage img{
-    border: white;
-    border-style: solid;
-    max-width: 800px;
-    max-height: 800px;
+    #mainMenu{
+        display: grid;
+        grid-template-areas: 
+            'mainMenuCanvas'
+            'mainMenuCanvas'
+            'mainMenuRightTop'
+            'mainMenuRightBottom';
+    
+        grid-gap: 20px;
+    }
+
+    #mainMenuRightTop{
+        width: 360px;
+    }
+    
+    #mainMenuRightBottom .option{
+        width: 360px;
+    }
 }
