@@ -35,7 +35,7 @@
 
         <div id="mainMenuRightTop">
                 <form method="post" name="updateDatabase" action="updatePhoto.php?id=<?php echo $_GET['id']?>">
-                    <input type="text" name="newTitle" placeholder="write new title">
+                    <input type="text" name="newTitle" placeholder="write new title .extension">
                     <input type="text" name="newDescription" placeholder="write new description">
                     <input type="text" name="newTags" placeholder="tag1,tag2,tag3..">
                     <input id="hiddenInput" type="text" name="newImage">

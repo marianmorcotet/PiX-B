@@ -1,5 +1,6 @@
 var canvas = document.getElementById("editedCanvas");
 var image = document.getElementById("editedImage");
+var hiddenInput = document.getElementById("hiddenInput");
 
 canvas.width = image.width;
 canvas.height = image.height;
@@ -25,7 +26,7 @@ function updateHiddenCanvas(newW, newH){
     newContext.clearRect(0, 0, newW, newH);
     newContext.drawImage(canvas, 0, 0, newW, newH);
     //put hidden canvas blob in hidden form input to be sent to back-end
-    hiddenInput.value = newCanvas.toDataURL("image/png");
+    hiddenInput.value = newCanvas.toDataURL("image/jpeg");
 }
 
 function applyFilter(){

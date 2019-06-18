@@ -1,10 +1,12 @@
 <?php  
 include("sharedFunctions.php");
 session_start();
+$conn = mysqli_connect("localhost", "root", "", "pixData");
 $imageId = $_GET['id'];
+
 if($_SERVER["REQUEST_METHOD"] == "POST"){
 
-    if(isset($_POST["newTitle"])){
+    if(isset($_POST["newTitle"]) && ($_POST["newTitle"] != NULL)){
         $conn = mysqli_connect("localhost", "root", "", "pixData");
         $newTitle = $_POST["newTitle"];
         $newTitle = clearInput($newTitle);
@@ -18,7 +20,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         mysqli_close($conn);
     }
 
-    if(isset($_POST["newDescription"])){
+    if(isset($_POST["newDescription"]) && ($_POST["newDescription"] != NULL)){
         $conn = mysqli_connect("localhost", "root", "", "pixData");
         $newDescription = $_POST["newDescription"];
         $newDescription = clearInput($newDescription);
@@ -32,7 +34,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         mysqli_close($conn);
     }
 
-    if(isset($_POST["newTags"])){
+    if(isset($_POST["newTags"]) && ($_POST["newTags"] != NULL)){
         $newTags = $_POST["newTags"];
         $conn = mysqli_connect("localhost", "root", "", "pixData");
         $newTags = clearInput($newTags);
@@ -60,24 +62,22 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             $stmt->close();
 
         }
-
-        if(isset($_POST['newImage'])){
-            $pos = strpos($_POST['newImage'], 'base64,');
-            if($pos != 0){
-                $blobData= base64_decode(substr($_POST['newImage'], $pos + 7));
-
-                $stmt = $conn->prepare("UPDATE Pictures SET picture = ? WHERE id_picture = ?");
-                $stmt->bind_param("si", $blobData, $imageId);
-                $stmt->execute();
-    
-                $stmt->close();
-            }
-        }
-
-        mysqli_close($conn);
-
     }
 
+    if(isset($_POST['newImage']) && ($_POST['newImage'] != NULL)){
+        $pos = strpos($_POST['newImage'], 'base64,');
+        if($pos != 0){
+            $blobData= base64_decode(substr($_POST['newImage'], $pos + 7));
+
+            $stmt = $conn->prepare("UPDATE Pictures SET picture = ? WHERE id_picture = ?");
+            $stmt->bind_param("si", $blobData, $imageId);
+            $stmt->execute();
+
+            $stmt->close();
+        }
+    }
+
+    mysqli_close($conn);
 }
 
 header("Location: Gallery.php");
