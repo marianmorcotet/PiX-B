@@ -1,71 +1,96 @@
 var canvas = document.getElementById("editedCanvas");
 var image = document.getElementById("editedImage");
 var hiddenInput = document.getElementById("hiddenInput");
-
-canvas.width = image.width;
-canvas.height = image.height;
-
-var context = canvas.getContext('2d');
+var newCanvas = document.createElement("canvas");
 var filterControls = document.querySelectorAll("input[type=range]");
 
-var newCanvas = document.createElement("canvas");
+function addTranslateButton() {
+    var translateImageButton = document.getElementById("translateImageButton");
+    translateImageButton.textContent = "Translate image";
+    translateImageButton.addEventListener('click', update, false);
+    var bottomMenu = document.getElementById("mainMenuRightTop");
+    bottomMenu.appendChild(translateImageButton);
+};
 
-newCanvas.width = canvas.width;
-newCanvas.height = canvas.height;
+function init(){
+    canvas.width = image.width;
+    canvas.height = image.height;
 
-var newContext = newCanvas.getContext('2d');
-var newHeightInput = document.getElementById("newHeight");
-var newWidthInput = document.getElementById("newWidth");
+    newCanvas.width = canvas.width;
+    newCanvas.height = canvas.height;
 
-function scaleToFit(img){
-
-    context.drawImage(img, 0, 0);
+    var context = canvas.getContext('2d');
+    context.drawImage(image, 0, 0, canvas.width, canvas.height);
+    
+    addTranslateButton();
+    addDownloadLink();
 }
 
-function updateHiddenCanvas(newW, newH){
-    //draw image to hidden canvas for saving
-    newCanvas.width = newW;
-    newCanvas.height = newH;
+function updateHiddenCanvas() {
+    newCanvas.width = canvas.width;
+    newCanvas.height = canvas.height;
 
-    newContext.clearRect(0, 0, newW, newH);
-    newContext.drawImage(canvas, 0, 0, canvas.width, canvas.height, 0, 0, newW, newH);
+    var newContext = newCanvas.getContext('2d');
+    newContext.clearRect(0, 0, newCanvas.width, newCanvas.height);
+
+    newContext.drawImage(canvas, 0, 0, canvas.width, canvas.height, 0, 0, newCanvas.width, newCanvas.height);
+
     //put hidden canvas blob in hidden form input to be sent to back-end
     hiddenInput.value = newCanvas.toDataURL("image/png");
 }
 
-function applyFilter(){
+function update(){
+    var newHeightInput = document.getElementById("newHeight");
+    var newWidthInput = document.getElementById("newWidth");
+    var newRotateInput = document.getElementById("newRotate");
+    
+    applyFilter(newWidthInput.value, newHeightInput.value, newRotateInput.value);
+
+    updateHiddenCanvas(newWidthInput.value, newHeightInput.value, newRotateInput.value);
+}
+
+function applyFilter(newW=0, newH=0, newR=0){
+    
     var computedFilters = '';
     filterControls.forEach(function(item) {
         computedFilters += item.getAttribute('data-filter') + '(' + item.value + item.getAttribute('data-scale') + ') ';
     });
-    context.clearRect(0,0,canvas.width,canvas.height);
-    //apply filter    
-    context.filter = computedFilters;
-    //draw image to canvas
-    context.drawImage(image, 0, 0);
-    newWidth = canvas.width;
-    newHeight = canvas.height;
 
-    if((newHeightInput.value != null) && (newWidthInput.value != null)){
-        newWidth = newWidthInput.value;
-        newHeight = newHeightInput.value;
+    if((newW != 0) && (newH != 0)){
+        canvas.width = newW;
+        canvas.height = newH;
     }
-    updateHiddenCanvas(newWidth, newHeight);
+
+    var context = canvas.getContext('2d');
+    context.clearRect(0,0,canvas.width,canvas.height);    
+    context.filter = computedFilters;
+
+    if(newR != 0){
+        context.translate(canvas.width/2, canvas.height/2);
+        context.rotate(newR * Math.PI / 180);
+        context.drawImage(image, -canvas.width / 2, -canvas.height / 2, canvas.width, canvas.height);
+
+        context.rotate(-(newR * Math.PI / 180));
+        context.translate(-canvas.width/2, -canvas.height/2)
+    }else{
+        //no rotation
+        context.drawImage(image, 0, 0);
+    }
+    
 };
 
 function addDownloadLink(){
     var link = document.createElement('a');
     
-    link.innerHTML = 'download image';
+    link.innerHTML = 'download';
 
     link.addEventListener('click', function(ev) {
         link.href = newCanvas.toDataURL();
         link.download = "mypainting.png";
 }, false);
 
-var bottomMenu = document.getElementById("bottomMenu");
+var bottomMenu = document.getElementById("mainMenuRightTop");
 bottomMenu.appendChild(link);
-}
+};
 
-// addDownloadLink();
-scaleToFit(image);
+init();

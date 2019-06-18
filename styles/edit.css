@@ -9,6 +9,9 @@
       animation: Gradient 15s ease infinite alternate;
   }
 
+button{
+    width: 150px;
+}
 body image{
     margin-left: 7%;
     margin-right: 7%;
@@ -105,3 +108,4 @@ form input{
         width: 360px;
     }
 }
+
