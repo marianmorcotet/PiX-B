@@ -38,6 +38,8 @@
                     <input type="text" name="newTitle" placeholder="write new title .extension">
                     <input type="text" name="newDescription" placeholder="write new description">
                     <input type="text" name="newTags" placeholder="tag1,tag2,tag3..">
+                    <input type="text" id="newWidth" placeholder="width">
+                    <input type="text" id="newHeight" placeholder="height">
                     <input id="hiddenInput" type="text" name="newImage">
                     <button type="submit">Save changes</button>
                 </form>

@@ -7,7 +7,6 @@ CREATE TABLE Pictures (
   id_user_owner int NOT NULL,
   size int(20) NOT NULL,
   type varchar(255) NOT NULL,
-  name varchar(50),
   title varchar(50),
   description varchar(255),
   picture longblob,
