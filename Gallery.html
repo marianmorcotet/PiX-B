@@ -11,18 +11,37 @@
 
 
     <header>
-		<h1>Your images</h1>
-    <button class="add">Add image</button>
-		<select>
-			<option>All image</option>
-			<option>Sort by data</option>
-			<option>Sort by #montain</option>
-		</select>
-    <!-- <div class="filter">
-      <button type="filter-by">Filter by</button>
-      <input type="text" placeholder="date/tag">
-    </div> -->
-	</header>
+        <h1 id="galleryTitle"></h1>
+          <form method="post" enctype="multipart/form-data">
+               <input type="file" name="image[]" id="image" multiple="" />
+               <br />
+               <input id="Describe" type="text" name="Describe" placeholder="Describe" />
+               <br />
+               <input type="submit" name="insert" id="insert" value="Insert" class="btn btn-info" />
+          </form>
+
+          <a href="">Logout</a>
+
+          <form  method="post">
+               <p>Filter by:</p>
+               <input type="text" name="tag" placeholder="Example: #nameTag" />
+               <br />
+               <select name="Filter">
+                    <option value="Default">Nothing</option>
+                    <option value="jpg">Jpg picture's</option>
+                    <option value="png">Png picture's</option>
+                    <option value="gif">Gif picture's</option>
+               </select>
+               <br />
+               <input type="date" name="dateFrom" id="date" value=""/>
+               <input type="submit" name="select" value="Apply" />
+          </form>
+
+          <!-- <div class="filter">
+          <button type="filter-by">Filter by</button>
+          <input type="text" placeholder="date/tag">
+          </div> -->
+     </header>
 
 
     <div class="gallery">
@@ -30,7 +49,9 @@
             <img src="http://timelapse.ro/wp-content/uploads/2016/02/Iasi-at-Night-Hyperlapse.jpg" alt="">
             <h3>About this photo:</h3>
             <p>Descriere imagine dsaglsad sadsaf giksadgkn dskangjknsadk jfnsdanf jsdanfsd, afnjsdankf nsdkajnfkansa aaaaaaa<p>
+            <p>#tag1,#tag2,#tag 3<p>
             <label class="image-menu">
+                <button>Download</button>
                 <button>Edit</button>
                 <button>Delete</button>
             </label>
@@ -40,42 +61,45 @@
             <img src="http://www.turism-iasi.ro/gallery/Primaria%20Iasi6.jpg" alt="">
             <h3>About this photo:</h3>
             <p>Descriere imagine</p>
+            <p>#tag1,#tag2,#tag 3<p>
             <label class="image-menu">
+                <button>Download</button>
                 <button>Edit</button>
                 <button>Delete</button>
-            </label>
         </div>
 
         <div class="image">
             <img src="http://www.turism-iasi.ro/gallery/gradina%20botanica2.jpg" alt="">
             <h3>About this photo:</h3>
             <p>Descriere imagine</p>
+            <p>#tag1,#tag2,#tag 3<p>
             <label class="image-menu">
+                <button>Download</button>
                 <button>Edit</button>
                 <button>Delete</button>
-            </label>
         </div>
 
         <div class="image">
             <img src="http://business-review.eu/wp-content/uploads/2017/07/Trei_ierarhi.jpg" alt="">
             <h3>About this photo:</h3>
             <p>Descriere imagine</p>
+            <p>#tag1,#tag2,#tag 3<p>
             <label class="image-menu">
+                <button>Download</button>
                 <button>Edit</button>
                 <button>Delete</button>
-            </label>
         </div>
         <div class="image">
             <img src="http://business-review.eu/wp-content/uploads/2017/07/Iasi_Palatul_Culturii.jpg" alt="">
             <h3>About this photo:</h3>
             <p>Descriere imagine</p>
+            <p>#tag1,#tag2,#tag 3<p>
             <label class="image-menu">
+                <button>Download</button>
                 <button>Edit</button>
                 <button>Delete</button>
-            </label>
         </div>
 
     </div>
 </body>
 </html>
-<script src="scripts/handleSession.js"></script>
