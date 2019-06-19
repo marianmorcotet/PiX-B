@@ -1,5 +1,5 @@
 <?php
-
+session_start();
 function response($val){
 	$response[$_GET['x']] = $val;
 	
@@ -9,7 +9,7 @@ function response($val){
 
 include("sharedFunctions.php");
 
-if (checkSession() != 0){
+if(isset($_SESSION['userId'])){
 	header("Content-Type:application/json");
 	response($_SESSION[$_GET['x']]);
 	}else{

@@ -7,23 +7,19 @@
     }
 
     function checkSession(){
-        session_start();
-        
         $userId = checkExistingSession();
+        $username = getUserName($userId);
         $_SESSION['userId'] = $userId;
-        $_SESSION['ceva'] = "ceva";
-        if(!$userId){
-            Header("Location: http://localhost/pixB/PiX-B/");
-        }
+        $_SESSION['userName'] = $username;
         return $userId;
     }
 
     function checkExistingSession(){
         $conn = mysqli_connect("localhost", "root", "", "pixData");
 
-        $stmt = $conn->prepare("SELECT DISTINCT id_user FROM PersistentSession");
+        $stmt = $conn->prepare("SELECT id_user FROM PersistentSession WHERE token = ?");
         $sesId = session_id();
-        // $stmt->bind_param("s", $sesId);
+        $stmt->bind_param("s", $sesId);
         $stmt->execute();
 
         $stmt->bind_result($userId);
@@ -31,7 +27,7 @@
 
         $stmt->close();
         mysqli_close($conn);
-        
+
         return $userId;
     }
 
@@ -46,15 +42,27 @@
         mysqli_close($conn);
     }
 
+    function deletePersistentSession($sessToken){
+        $conn = mysqli_connect("localhost", "root", "", "pixData");
+
+        $stmt = $conn->prepare("DELETE FROM PersistentSession WHERE token = ?");
+        $stmt->bind_param("s", $sessToken);
+        $stmt->execute();
+
+        $stmt->close();
+        mysqli_close($conn);
+    }
+
     function startPersistentSession(){
         $lifetime = 60 * 60 * 2;
-        session_start();
-        $dateTime = time() + $lifetime;
-        setcookie(session_name(), session_id(), $dateTime);
-        $_SESSION["userId"] = getUserId($_POST["email"]);
-        savePersistentSession(session_id(), getUserId($_POST["email"]), $dateTime);
 
-        header("Location: http://localhost/pixB/PiX-B/Gallery.php");
+        $dateTime = time() + $lifetime;
+
+        $_SESSION['userId'] = getUserId($_SESSION['email']);
+        $_SESSION['userName'] = getUserName($_SESSION['userId']);
+
+        savePersistentSession(session_id(), $_SESSION["userId"], $dateTime);
+
     }
 
     function getUserId($email){
@@ -74,5 +82,24 @@
         mysqli_close($conn);
 
         return $userId;
+    }
+
+    function getUserName($userId){
+        $conn = mysqli_connect("localhost", "root", "", "pixData");
+
+        $userId = clearInput($userId);
+        $userId = mysqli_real_escape_string($conn, $userId);
+
+        $stmt = $conn->prepare("SELECT username FROM Users WHERE id_user = ?");
+        $stmt->bind_param("s", $userId);
+        $stmt->execute();
+        
+        $stmt->bind_result($username);
+        $stmt->fetch();
+
+        $stmt->close();
+        mysqli_close($conn);
+
+        return $username;
     }
 ?>

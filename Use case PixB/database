@@ -5,11 +5,12 @@ DROP TABLE IF EXISTS Pictures;
 CREATE TABLE Pictures (
   id_picture int NOT NULL UNIQUE AUTO_INCREMENT,
   id_user_owner int NOT NULL,
-  name varchar(50),
+  size int(20) NOT NULL,
+  type varchar(255) NOT NULL,
   title varchar(50),
   description varchar(255),
   picture longblob,
-  date datetime,
+  date date,
   PRIMARY KEY (id_picture)
 );
 
@@ -41,8 +42,8 @@ CREATE TABLE Users(
 DROP TABLE IF EXISTS PersistentSession;
 CREATE TABLE PersistentSession(
   id_session int NOT NULL UNIQUE AUTO_INCREMENT,
-  token varchar(255) NOT NULL,
-  id_user int NOT NULL,
+  token varchar(255) NOT NULL UNIQUE,
+  id_user int NOT NULL UNIQUE,
   expires timestamp NOT NULL,
   PRIMARY KEY (id_session)
 );
