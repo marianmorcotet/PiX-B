@@ -1,7 +1,7 @@
 var canvas = document.getElementById("editedCanvas");
 var image = document.getElementById("editedImage");
 var hiddenInput = document.getElementById("hiddenInput");
-var newCanvas = document.createElement("canvas");
+// var newCanvas = document.createElement("canvas");
 var filterControls = document.querySelectorAll("input[type=range]");
 
 function addTranslateButton() {
@@ -16,8 +16,8 @@ function init(){
     canvas.width = image.width;
     canvas.height = image.height;
 
-    newCanvas.width = canvas.width;
-    newCanvas.height = canvas.height;
+    // newCanvas.width = canvas.width;
+    // newCanvas.height = canvas.height;
 
     var context = canvas.getContext('2d');
     context.drawImage(image, 0, 0, canvas.width, canvas.height);
@@ -46,7 +46,8 @@ function update(){
     
     applyFilter(newWidthInput.value, newHeightInput.value, newRotateInput.value);
 
-    updateHiddenCanvas(newWidthInput.value, newHeightInput.value, newRotateInput.value);
+    // updateHiddenCanvas(newWidthInput.value, newHeightInput.value, newRotateInput.value);
+    hiddenInput.value = canvas.toDataURL("image/png");
 }
 
 function applyFilter(newW=0, newH=0, newR=0){
@@ -57,6 +58,8 @@ function applyFilter(newW=0, newH=0, newR=0){
     });
 
     if((newW != 0) && (newH != 0)){
+        oldW = canvas.width;
+        oldH = canvas.height;
         canvas.width = newW;
         canvas.height = newH;
     }
@@ -74,7 +77,7 @@ function applyFilter(newW=0, newH=0, newR=0){
         context.translate(-canvas.width/2, -canvas.height/2)
     }else{
         //no rotation
-        context.drawImage(image, 0, 0);
+        context.drawImage(image, 0, 0, image.width, image.height, 0, 0, canvas.width, canvas.height);
     }
     
 };
@@ -85,7 +88,7 @@ function addDownloadLink(){
     link.innerHTML = 'download';
 
     link.addEventListener('click', function(ev) {
-        link.href = newCanvas.toDataURL();
+        link.href = canvas.toDataURL();
         link.download = "mypainting.png";
 }, false);
 
