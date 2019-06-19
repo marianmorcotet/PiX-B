@@ -28,14 +28,18 @@ if(!isset($_SESSION['userId'])){
                $file = addslashes(file_get_contents($file_array[$i]['tmp_name']));  
                $title= addslashes($file_array[$i]['name']);
                $type=$file_array[$i]['type'];
-               //$ext = pathinfo($title, PATHINFO_EXTENSION);
-               $size= $file_array[$i]['size'];
-               $id_user=$_SESSION['userId'];
-               $date=date("Y-m-d");
-               $query = "INSERT INTO pictures(id_user_owner,picture,title,type,size,description,date) VALUES ('$id_user','$file','$title','$type','$size','$describe','$date')";
-               if(mysqli_query($connect, $query))  
-               {  
-                    $ok=1; 
+               $ext = pathinfo($title, PATHINFO_EXTENSION);
+               //print_r($ext);
+               if($ext=='JPG' || $ext=='gif' || $ext=='JPEG' || $ext=='png' || $ext=='PNG' || $ext=='jpg' || $ext=='GIF' || $ext=='jpeg'){
+                    $size= $file_array[$i]['size'];
+                    $id_user=$_SESSION['userId'];
+                    $date=date("Y-m-d");
+                    $query = "INSERT INTO pictures(id_user_owner,picture,title,type,size,description,date) VALUES ('$id_user','$file','$title','$type','$size','$describe','$date')";
+                    if(mysqli_query($connect, $query))  
+                    {  
+                         $ok=1; 
+                    }
+                    else{ print_r(mysqli_error($connect));}
                }
           }
           if($ok!=0){

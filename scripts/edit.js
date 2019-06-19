@@ -13,8 +13,13 @@ function addTranslateButton() {
 };
 
 function init(){
-    canvas.width = image.width;
-    canvas.height = image.height;
+    if(image.width < 1000 || image.height < 1000){
+        canvas.width = image.width;
+        canvas.height = image.height;
+    }else{
+        canvas.width = 800;
+        canvas.height = 600;
+    }
 
     // newCanvas.width = canvas.width;
     // newCanvas.height = canvas.height;
